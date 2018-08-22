@@ -1,0 +1,17 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: ctguyanewhctg973.mysql.db
+    database_port: 3306
+    database_name: ctguyanewhctg973
+    database_user: ctguyanewhctg973
+    database_password: B0ursesCTG
+    mailer_transport: mail
+#    mailer_transport: smtp
+#    mailer_auth_mode: login
+#    mailer_host: ns0.ovh.net
+#    mailer_user: noreply@ctguyane.fr
+#    mailer_password: B0ursesCTG
+#    mailer_port: 587
+#    mailer_encryption: null
+
+    secret: e34a9ac2a9d8c96d23a68845c60cec46355ca295

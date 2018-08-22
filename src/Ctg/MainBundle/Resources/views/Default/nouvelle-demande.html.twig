@@ -1,0 +1,56 @@
+{% extends "CtgMainBundle:Layout:main.html.twig" %}
+
+{% block title %}Nouvelle demande{% endblock %}
+{% block stylesheets %}{{parent()}}{% endblock %}
+
+{%block body %}
+<body id="bodyCC">
+    <header>
+    {%block header %}
+        {{parent()}}
+        <nav class="gtco-nav" role="navigation">
+        <div class="container">
+            <div>
+                <div class="col-sm-2 col-xs-12">
+                    <div id="gtco-logo">Aides<em>Territoriales</em>&Eacute;tudiants</div>
+                </div>
+                <div class="col-xs-10">
+                    <ul>
+                        <li><a href="{{ path('ctg_education') }}" data-nav-section="aides">Accueil</a></li>
+                        <li><a href="{{ path('ctg_aides') }}" data-nav-section="aides">Les aides</a></li>
+                        <li><a href="{{ path('ctg_faq') }}" data-nav-section="rules">FAQ</a></li>
+                        <li><a href="{{ path('ctg_contact') }}" data-nav-section="procedure">Contact</a></li>
+                        {% if app.user.nom is defined %}
+                        {% if DCU is not null %}
+                        {% else %}
+                        <li class="btn-cta"><a href="{{path('ctg_nouvelle_demande')}}" data-nav-section="sign-up"><span>Nouvelle demande</span></a></li>
+                        {% endif %}
+                        {% else%}
+                        <li class="btn-cta"><a href="{{path('ctg_creer_compte')}}" data-nav-section="sign-up"><span>Je m'inscris</span></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% endblock %}
+    </header>
+    <main id="mainCC">
+    {% block main %}
+    {{parent()}}
+        <div id="buttons-creer-compte">
+            <h1 id="h1ND">Formuler une nouvelle demande :</h1>
+            <div id="BND">
+                <a id="b1ND" href="{{ path('ctg_form_creation_demande_bac1a5') }}">Je suis etudiant(e) de Bac +1 à Bac +5</a>
+                <a id="b2ND" href="{{ path('ctg_form_creation_demande_bac6a8') }}">Je suis etudiant(e) de Bac +6 à Bac +8</a>
+            </div>
+        </div>
+    {% endblock %}
+    </main>
+    <footer>
+    {% block footer %}
+        {{parent()}}
+    {% endblock %}
+    </footer>
+</body>
+{% endblock %}

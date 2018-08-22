@@ -1,0 +1,42 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: md5
+        Ctg\MainBundle\Entity\Utilisateurs: plaintext
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        #in_memory:
+            #memory:
+                #users:
+                    #admin: {password: admin, roles: ['ROLE_ADMIN']}
+                    #utilisateur: {password: utilisateur, roles: ['ROLE_UTILISATEUR']}
+                    #gestionaire: {password: gestionaire, roles: ['ROLE_GESTIONNAIRE']}
+                    #referent: {password: referent, roles: ['ROLE_REFERENT']}
+        main:
+            entity:
+                class: Ctg\MainBundle\Entity\Utilisateurs
+                property: mail
+                
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            pattern: ^/
+            anonymous: true
+            provider: main
+            form_login:
+                login_path: login
+                check_path: login_check
+                default_target_path: ctg_perso
+                always_use_default_target_path: true
+            logout:
+                path: logout
+                target: /education
+            
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_REFERENT,ROLE_GESTIONNAIRE,ROLE_UTILISATEUR]
+        ROLE_REFERENT: [ROLE_GESTIONNAIRE]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN,ROLE_ALLOWED_TO_SWITCH]

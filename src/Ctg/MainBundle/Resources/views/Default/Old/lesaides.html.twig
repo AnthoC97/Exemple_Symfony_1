@@ -1,0 +1,63 @@
+{% extends "CtgMainBundle:Layout:main.html.twig" %}
+
+{% block title %}Education{% endblock %}
+{% block stylesheets %}{{parent()}}{% endblock %}
+
+
+{%block body %}
+<body id="education">
+    <header>
+    {%block header %}
+        {{parent()}}
+        
+        <nav class="gtco-nav" role="navigation">
+        <div class="container">
+            <div>
+                <div class="col-sm-2 col-xs-12">
+                    <div id="gtco-logo"><a href="index.html">Just<em>ice</em></a></div>
+                </div>
+                <div class="col-xs-10">
+                    <ul>
+                        <li class="active">Accueil</a></li>
+                        <li><a href="{{ urlLesaides }}" data-nav-section="aides">Les aides</a></li>
+                        <li><a href="{{ urlRegles }}" data-nav-section="rules">Règlement</a></li>
+                        <li><a href="{{ urlModalites }}" data-nav-section="procedure">Procédure d'attriution</a></li>
+                        <li class="btn-cta"><a href="{{path('ctg_creer_compte')}}" data-nav-section="sign-up"><span>Je m'inscris</span></a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </nav>
+    {% endblock %}
+    </header>
+    <main>
+    {% block main %}
+    {{parent()}}
+        <div>
+            <h4>Vous êtes étudiant-e-s en formation initiale (pas de rupture après le <b>bac</b>), nous souhaitons connaître votre niveau d'étude:</h4></br>
+            <ul id="listeBac1a5">
+                <li><b>bac</b> +1 : il s'agit de la 1ère année après le <b>bac</b> (En préparation d'un <b>bts</b>, d'une <b>licence</b> ou en classe préparatoire aux grandes écoles)</li>
+                <li><b>bac</b> +2 : il s'agit de la 2ème année après le <b>bac</b> (<b>bts</b>, 2ème année de <b>licence</b> ou de classe prépa)</li>
+                <li><b>bac</b> +3 : il s'agit de la 3ème année après le <b>bac</b> (<b>licence</b> ou en classe prépa)</li>
+                <li><b>bac</b> +4 : il s'agit de la 4ème année après le <b>bac</b> (<b>master I</b>)</li>
+                <li><b>bac</b> +5 : il s'agit de la 5ème année après le <b>bac</b> (<b>master II</b>)</li>
+            </ul><br/>
+            <p>attention:</p><br/>
+            <p>Les redoublements et changements de filières ne sont pas considérés comme une année supplémentaire</p><br/>
+            <p>Exemple:</p><br/>
+            <p>Cas1: Pour l'année universitaire <b>2016/2017</b>. J'étais en 1ère année licence aes, j'ai fait une demande où j'ai coché <b>bac +1</b>.</p>
+            <p>Je n'ai pas validé cette année et je dois recommencer. Pour l'année universitaire <b>2017/2018</b>, je coche à nouveau <b>bac +1</b> et non <b>bac +2.</b></p></br>
+            <p>Cas2: Pour l'année universitaire <b>2016/2017</b>. J'étais en 1ère année licence aes, j'ai fait une demande où j'ai coché <b>bac +1</b>.</p>
+            <p>J'ai changé de filière et m'oriente vers une 1ère année en <b>LEA</b>. Pour l'année universitaire <b>2017/2018</b>, je coche à nouveau <b>bac +1</b> et non <b>bac +2.</b></p></br>
+        </div>
+    {% endblock %}
+    </main>
+    <footer>
+    {% block footer %}
+        {{parent()}}
+    {% endblock %}
+    </footer>
+</body>
+{% endblock %}

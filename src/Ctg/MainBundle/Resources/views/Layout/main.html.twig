@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>{% block title%}Ctg{% endblock %}</title>
+        {% block meta %}
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% endblock %}
+        {% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="{{ asset("css/style.css") }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset("css/bootstrap.css") }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset("css/animate.css") }}">
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+        <script src="https://use.fontawesome.com/5c239fc7f7.js"></script>
+        <script src="{{ asset("js/modernizr-2.6.2.min.js") }}"></script>
+        {% endblock %}
+    </head>
+    {% block body %}
+    <body class="body">
+        <header>
+            {% block header %}
+                <a href="{{path('ctg_education')}}"><img id="logo-header" src="{{ asset("img/logo-ctg-label2.png")}}"/></a>
+                <div id="black-header">
+                    <a href="{{path('ctg_education')}}">
+                        <img id="logo-header-small-screen" src="{{ asset("img/logo-ctg-label2.png")}}"/>
+                    </a>
+                    {% if app.user.nom is defined %}
+                        <p id="pAccueil">
+                        Bonjour {{app.user.nom}} {{app.user.prenom}} 
+                        </p>
+                        <a href="{{path('ctg_perso')}}">
+                            <img  src="{{ asset("img/home.png")}}" height="30px" width="30px"></a>
+                        <a href="{{path('logout')}}">
+                            <img  src="{{ asset("img/logout.png")}}" height="30px" width="30px">
+                        </a>
+                    {% else%}
+                        <a class="aConnexion" href="{{path('ctg_creer_compte')}}" color="white">S'inscrire </a>
+                        <p id="pipe">|</p>
+                        <a class="aConnexion" href="{{path('login')}}" color="white"> Se connecter</a> 
+                    {% endif %}
+                </div>
+                <div id="white-header" height="50px">
+                </div>
+            {% endblock %}
+        </header>
+        <main>
+            {% block main %}
+           <!-- <div id="container">
+                <img id="banniere" src="{{asset('img/bourses2.png')}}"/>
+            </div>
+            <img id="banniere_bourse" src="{{ asset("img/banniere_bourse.png")}}"/> -->
+            {% endblock %}
+        </main>
+        <div class="clear"></div>
+        <footer>
+            {% block footer %}
+             <div id="blue-footer">
+                <!-- <div>
+                    <h2 class="titleFooter">Abonnement mail</h2>
+                    <hr color="#ffffff" width="80%"></br>
+                    <p color="white">recevez nos articles par mail dès leur publication</p></br>
+                    <form>
+                        <input type="text" value="votre adresse mail"></input></br></br>
+                        <input type="submit" value="S'INSCRIRE"></input></br></br>
+                    </form>
+                    <img id="logo-white" src="{# {{asset("img/logo-withe.png")}} #}">  enlever commentaire twig
+                    
+                </div>
+                <div>
+                    <h2 class="titleFooter">Publications</h2>
+                    <hr color="#ffffff" width="80%"></br>
+                    <p color="white">Guide de la collectivité Territoriale de la Guyane</p></br>
+                    
+                </div>
+                <div>
+                    <h2 class="titleFooter">Tweets</h2>
+                </div>
+                <div>
+                    <h2 class="titleFooter">plan d'accès</h2>
+                    
+                </div> -->
+            </div>
+            <div id="black-footer">
+                <p>© CTGUYANE 2017 | <a href="https://www.ctguyane.fr/mentions-legales/">MENTIONS LÉGALES</a></p>
+                <div class="logo-reseau">
+                    <a href="http://feeds.feedburner.com/CTGuyane"><span class="fa fa-rss"></span></a>
+                    <a href="https://www.facebook.com/CTGuyane/"><span class="fa fa-facebook"></span></a>
+                    <a href="https://twitter.com/CTdeGuyane"><span class="fa fa-twitter"></span></a>
+                    <a href="https://plus.google.com/+CtguyaneFr"><span class="fa fa-google-plus"></span></a>
+                </div>
+            </div> 
+            {% endblock %}
+        </footer>
+    </body>
+    {% endblock %}
+</html>

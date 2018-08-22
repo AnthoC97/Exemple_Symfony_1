@@ -1,0 +1,15 @@
+ctg_main:
+    resource: "@CtgMainBundle/Controller"
+    type:     annotation
+    prefix:   /
+
+login:
+    path: /login
+    defaults:
+        _controller: CtgMainBundle:Security:login
+
+login_check:
+    path: /login_check
+
+logout:
+    path: /logout

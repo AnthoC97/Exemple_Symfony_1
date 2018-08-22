@@ -1,0 +1,468 @@
+{% extends "CtgMainBundle:Layout:main.html.twig" %}
+
+{% block title %}{% if app.user.nom is defined %}Perso - {{app.user.nom }}{% endif %}{% endblock %}
+{% block stylesheets %}{{parent()}}{% endblock %}
+
+
+{%block body %}
+<body id="bodyPerso">
+    <header>
+    {%block header %}
+    {% if is_granted('ROLE_REFERENT') %}
+        {{parent()}}
+        <nav id="menu">
+            <p id="title" href="#">Attribution des demandes</p>
+             <ul id="menu-ul">
+                <li><a href="{{ path('ctg_form_creation_compte_gestionnaire') }}">nouveau Gestionnaire</a></li>
+                <li><a href="{{ urlLoremIpsum }}">Mon compte</a></li>
+            </ul> 
+        </nav>
+    {% elseif is_granted('ROLE_UTILISATEUR') %}
+        {{parent()}}
+        <nav class="gtco-nav" role="navigation">
+        <div class="container">
+            <div>
+                <div class="col-sm-2 col-xs-12">
+                    <div id="gtco-logo">Aides<em>Territoriales</em>&Eacute;tudiants</div>
+                </div>
+                <div class="col-xs-10">
+                    <ul>
+                        <li><a href="{{ path('ctg_education') }}" data-nav-section="aides">Accueil</a></li>
+                        <li><a href="{{ path('ctg_aides') }}" data-nav-section="aides">Les aides</a></li>
+                        <li><a href="{{ path('ctg_faq') }}" data-nav-section="rules">FAQ</a></li>
+                        <li><a href="{{ path('ctg_contact') }}" data-nav-section="procedure">Contact</a></li>
+                        <li class="btn-cta"><a href="{{path('ctg_form_creation_demande')}}" data-nav-section="sign-up"><span>Je fais une demande</span></a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </nav>
+        {% else %}
+        {% endif %}
+    {% endblock %}
+    </header>
+    <main id="mainPerso">
+    {% block main %}
+    {% if is_granted('ROLE_REFERENT') %}
+        <h1>Attribuer des dossiers aux gestionnaires</h1>
+        <table class="t2">
+          <tr>
+              <th>Date de demande</th>
+              <th>Nom</th>
+              <th>Prenom</th>
+              <th>Niveau d'étude</th>
+              <th>Documents</th>
+              <th>Fiche d'instructions</th>
+              <th>Etat</th>
+              <th>Gestionnaire</th>
+          </tr>
+        {% for d in listeDemandes %}    
+          <tr>
+            <td>{{d.dateDemande|date("d/m/Y")}}</td>
+            <td>{{d.demandeur.nom}}</td>
+            <td>{{d.demandeur.prenom}}</td>
+            <td>{{d.demandeur.niveauDEtude}}</td>
+            <td>Complet</td>
+            <td>En cours</td>
+            <td>Commission</td>
+            <td>
+                <form method="post" action="{{path('ctg_perso')}}">
+                    <select id="select" name="o">
+                      {% for g in listeGest %} 
+                      <option value="{{g.id}}">{{g.nom}} {{g.prenom}}</option>
+                      {% endfor %}
+                    </select>
+                    <input type="hidden" name="id" value="{{d.id}}"></input>
+                    <input type="submit" value="attribuer"></input>
+                </form>
+            </td>
+          </tr>
+        {% endfor %}
+        </table>
+        <h1>Dossiers attribués</h1>
+        <table class="t1">
+          <tr>
+              <th>Date de demande</th>
+              <th>Nom</th>
+              <th>Prenom</th>
+              <th>Niveau d'étude</th>
+              <th>Documents</th>
+              <th>Fiche d'instructions</th>
+              <th>Etat</th>
+              <th>Gestionnaire</th>
+          </tr>
+        {% for d in listeDemandes2 %}    
+          <tr>
+            <td>{{d.dateDemande|date("d/m/Y")}}</td>
+            <td>{{d.demandeur.nom}}</td>
+            <td>{{d.demandeur.prenom}}</td>
+            <td>{{d.demandeur.niveauDEtude}}</td>
+            <td>Complet</td>
+            <td>En cours</td>
+            <td>Commission</td>
+            <td>
+                <form method="post" action="{{path('ctg_perso')}}">
+                    <select id="select" name="o">
+                      {% for g in listeGest %} 
+                      <option value="{{g.id}}">{{g.nom}} {{g.prenom}}</option>
+                      {% endfor %}
+                    </select>
+                    <input type="hidden" name="id" value="{{d.id}}"></input>
+                    <input type="submit" value="attribuer"></input>
+                </form>
+            </td>
+          </tr>
+        {% endfor %}
+        </table>
+    {% elseif is_granted('ROLE_UTILISATEUR') %}
+        {{parent()}}
+        <div class="main">
+            <div width="80%">            
+                <h1>Mon compte</h1>
+                <hr color="#0085CA" width="100%" height="1px"></br></br>  
+            </div>
+            <div id="perso-1">
+                <div id="infos-persos">
+                    <div id="texte-infos">
+                        <h2>Mes informations personnelles</h2>
+                        <p><span>Nom: </span>{% if app.user.nom is defined %}{{app.user.prenom}} {{app.user.nom}}{% endif %}</p>
+                        <!-- <p><span>Date de naissance: </span>{#{{app.user.dateNaissance}}#}</p> -->
+                        <p><span>Adresse: </span>{% if app.user.nom is defined %}{{app.user.rue}} {{app.user.codePostal}} {{app.user.ville}}{% endif %}</p>
+                        <p><span>Téléphone: </span>{% if app.user.nom is defined %}{{app.user.telephone}}{% endif %}</p>
+                    </div>
+                   <!-- <a class="buttons" href="{{ urlLoremIpsum }}">Modifier</a> -->
+                </div>
+                <div id="demandes">
+                    <div id="texte-demandes">
+                        
+                        <h2>Mes demandes d'aides</h2>
+                        <p><span>Date: </span> {% if DCU is not null %}{{DCU.dateDemande | date("d/m/Y")}}{% else %}-{% endif %}</p>
+                        <p><span>Demandes: </p>
+                        {% if DCU is not null %}
+                        <ul>
+                            {% for d in DCU.aides %}
+                            <li>{{d}}</li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}-
+                        {% endif %}
+                        <p><span>Complet: </span>
+                        {% if DCU is not null %}
+                        {% if DCU.avisDImpositionN is not null 
+                        and DCU.avisDImpositionN1 is not null 
+                        and DCU.certificatDeScolarite is not null 
+                        and DCU.certificatDeScolariteN1 is not null 
+                        and DCU.notificationCrous is not null
+                        and app.user.cni is not null
+                        and app.user.justificatifDeDomicile is not null
+                        and app.user.ribFile is not null
+                        and app.user.cv is not null
+                        and app.user.diplome is not null %}
+                        oui
+                        {% else %}
+                        non
+                        {% endif %}
+                        {% else %}-
+                        {% endif %}
+                        </p>
+                        <p><span>Etat: </span>{% if DCU is not null %} {{DCU.etat}}{% else %}-{% endif %} </p>
+                        
+                    </div>
+                    <!-- <a class="buttons" href="{{ urlLoremIpsum }}">Consulter</a> -->
+                </div>
+            </div>
+            <div id="perso-2">
+                <div id="pieces-justificatives">
+                    <div id="texte-pj">
+                        <h2>Mes pieces justificatives</h2>
+                        <p>
+                            <span>piece d'identité: </span>
+                            {% if app.user.cni is not null %}
+                            oui 
+                            <a href="{{ asset('document/'~app.user.id~'_'~app.user.mail~'/'~ app.user.cni)}}">
+                                <span class="fa fa-eye" ></span> </a>
+                            <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                 <!-- On limite le fichier à 100Ko -->
+                                 <input type="file" name="file" required>
+                                 <input type="hidden" name="filename" value="_piece_identite.pdf">
+                                 <input type="hidden" name="id_user_add" value="{{app.user.id}}"></input>
+                                 <input type="submit" name="envoyer" value="Envoyer le fichier">
+                            </form>
+                            {% else %}
+                            non 
+                            <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                 <!-- On limite le fichier à 100Ko -->
+                                 <input type="file" name="file" required>
+                                 <input type="hidden" name="filename" value="_piece_identite.pdf">
+                                 <input type="hidden" name="id_user_add" value="{{app.user.id}}"></input>
+                                 <input type="submit" name="envoyer" value="Envoyer le fichier">
+                            </form>
+                            {% endif %}
+                        </p><br/><br/>
+                        <p>
+                            <span>Avis d'imposition: </span>
+                            {% if DCU is not null %}
+                            {% if DCU.avisDImpositionN is not null %}
+                            oui 
+                            <a href="{{asset('document/'~DCU.demandeur.id~'_'~DCU.demandeur.mail~'/'~DCU.demandeur.mail~'_avis_imposition_n.pdf')}}">
+                                <span class="fa fa-eye"></span></a>
+                                <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                     <!-- On limite le fichier à 100Ko -->
+                                     <input type="file" name="file" required>
+                                     <input type="hidden" name="filename" value="_avis_imposition_n.pdf">
+                                     <input type="hidden" name="id_doc" value="{{DCU.id}}"></input>
+                                     <input type="hidden" name="id_user" value="{{app.user.id}}"></input>
+                                     <input type="submit" name="envoyer" value="Envoyer le fichier">
+                                </form>
+                            {% else %}
+                            non 
+                            <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                 <!-- On limite le fichier à 100Ko -->
+                                 <input type="file" name="file" required>
+                                 <input type="hidden" name="filename" value="_avis_imposition_n.pdf">
+                                 <input type="hidden" name="id_doc" value="{{DCU.id}}"></input>
+                                 <input type="hidden" name="id_user" value="{{app.user.id}}"></input>
+                                 <input type="submit" name="envoyer" value="Envoyer le fichier">
+                            </form>
+                            {% endif %}
+                            {% else %}
+                            non (vous n'avez pas effectué de demande)
+                            {% endif %}
+                        </p><br/><br/>
+                        <p>
+                            <span>Certificat de scolarité: </span>
+                            {% if DCU is not null %}
+                            {% if DCU.certificatDeScolarite is not null %}
+                            oui 
+                            <a href="{{asset('document/'~DCU.demandeur.id~'_'~DCU.demandeur.mail~'/'~DCU.demandeur.mail~'_certificat_scolarite.pdf')}}">
+                                <span class="fa fa-eye"></span> </a>
+                                <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                     <!-- On limite le fichier à 100Ko -->
+                                     <input type="file" name="file" required>
+                                     <input type="hidden" name="filename" value="_certificat_scolarite.pdf">
+                                     <input type="hidden" name="id_doc" value="{{DCU.id}}"></input>
+                                     <input type="hidden" name="id_user" value="{{app.user.id}}"></input>
+                                     <input type="submit" name="envoyer" value="Envoyer le fichier">
+                                </form>
+                            {% else %}
+                            non 
+                            <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                 <!-- On limite le fichier à 100Ko -->
+                                 <input type="file" name="file" required>
+                                 <input type="hidden" name="filename" value="_certificat_scolarite.pdf">
+                                 <input type="hidden" name="id_doc" value="{{DCU.id}}"></input>
+                                 <input type="hidden" name="id_user" value="{{app.user.id}}"></input>
+                                 <input type="submit" name="envoyer" value="Envoyer le fichier">
+                            </form>
+                            {% endif %}
+                            {% else %}
+                            non (vous n'avez pas effectué de demande)
+                            {% endif %}
+                        </p><br/><br/>
+                        <p>
+                            <span>Notification CROUS: </span>
+                            {% if DCU is not null %}
+                            {% if DCU.notificationCrous is not null %}
+                            oui 
+                            <a href="{{asset('document/'~DCU.demandeur.id~'_'~DCU.demandeur.mail~'/'~DCU.demandeur.mail~'_notification_crous.pdf')}}">
+                                <span class="fa fa-eye"></span></a>
+                                <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                     <!-- On limite le fichier à 100Ko -->
+                                     <input type="file" name="file" required>
+                                     <input type="hidden" name="filename" value="_notification_crous.pdf">
+                                     <input type="hidden" name="id_doc" value="{{DCU.id}}"></input>
+                                     <input type="hidden" name="id_user" value="{{app.user.id}}"></input>
+                                     <input type="submit" name="envoyer" value="Envoyer le fichier">
+                                </form>
+                            {% else %}
+                            non 
+                            <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                 <!-- On limite le fichier à 100Ko -->
+                                 <input type="file" name="file" required>
+                                 <input type="hidden" name="filename" value="_notification_crous.pdf">
+                                 <input type="hidden" name="id_doc" value="{{DCU.id}}"></input>
+                                 <input type="hidden" name="id_user" value="{{app.user.id}}"></input>
+                                 <input type="submit" name="envoyer" value="Envoyer le fichier">
+                            </form>
+                            {% endif %}
+                            {% else %}
+                            non (vous n'avez pas effectué de demande)
+                            {% endif %}
+                        </p><br/><br/>
+                        <p>
+                            <span>RIB: </span>
+                            {% if app.user.ribFile is not null %}
+                            oui  
+                            <a href="{{ asset('document/'~app.user.id~'_'~app.user.mail~'/'~app.user.ribFile)}}">
+                                <span class="fa fa-eye" ></span> </a>
+                                <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                     <!-- On limite le fichier à 100Ko -->
+                                     <input type="file" name="file" required>
+                                     <input type="hidden" name="filename" value="_rib.pdf">
+                                     <input type="hidden" name="id_user_add" value="{{app.user.id}}"></input>
+                                     <input type="submit" name="envoyer" value="Envoyer le fichier">
+                                </form>
+                            {% else %}
+                            non 
+                            <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                 <!-- On limite le fichier à 100Ko -->
+                                 <input type="file" name="file" required>
+                                 <input type="hidden" name="filename" value="_rib.pdf">
+                                 <input type="hidden" name="id_user_add" value="{{app.user.id}}"></input>
+                                 <input type="submit" name="envoyer" value="Envoyer le fichier">
+                            </form>
+                            {% endif %}
+                        </p><br/><br/>
+                        <p>
+                            <span>CV: </span>
+                            {% if app.user.cv is not null %}
+                            oui  
+                            <a href="{{ asset('document/'~app.user.id~'_'~app.user.mail~'/'~app.user.cv)}}">
+                                <span class="fa fa-eye" ></a>
+                                <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                     <!-- On limite le fichier à 100Ko -->
+                                     <input type="file" name="file" required>
+                                     <input type="hidden" name="filename" value="_cv.pdf">
+                                     <input type="hidden" name="id_user_add" value="{{app.user.id}}"></input>
+                                     <input type="submit" name="envoyer" value="Envoyer le fichier">
+                                </form>
+                            {% else %}
+                            non 
+                            <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                <!-- On limite le fichier à 100Ko -->
+                                <input type="file" name="file" required>
+                                <input type="hidden" name="filename" value="_cv.pdf">
+                                <input type="hidden" name="id_user_add" value="{{app.user.id}}"></input>
+                                <input type="submit" name="envoyer" value="Envoyer le fichier">
+                            </form>
+                            {% endif %}
+                        </p><br/><br/>
+                        <p>
+                            <span>Avis d'imposition N-1: </span>
+                            {% if DCU is not null %}
+                            {% if DCU.avisDImpositionN1 is not null %}
+                            oui 
+                            <a href="{{asset('document/'~DCU.demandeur.id~'_'~DCU.demandeur.mail~'/'~DCU.demandeur.mail~'_avis_imposition_n_1.pdf')}}">
+                                <span class="fa fa-eye"></span></a>
+                                <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                     <!-- On limite le fichier à 100Ko -->
+                                     <input type="file" name="file" required>
+                                     <input type="hidden" name="filename" value="_avis_imposition_n_1.pdf">
+                                     <input type="hidden" name="id_doc" value="{{DCU.id}}"></input>
+                                     <input type="hidden" name="id_user" value="{{app.user.id}}"></input>
+                                     <input type="submit" name="envoyer" value="Envoyer le fichier">
+                                </form>
+                            {% else %}
+                            non 
+                            <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                 <!-- On limite le fichier à 100Ko -->
+                                 <input type="file" name="file" required>
+                                 <input type="hidden" name="filename" value="_avis_imposition_n_1.pdf">
+                                 <input type="hidden" name="id_doc" value="{{DCU.id}}"></input>
+                                 <input type="hidden" name="id_user" value="{{app.user.id}}"></input>
+                                 <input type="submit" name="envoyer" value="Envoyer le fichier">
+                            </form>
+                            {% endif %}
+                            {% else %}
+                            non (vous n'avez pas effectué de demande)
+                            {% endif %}
+                        </p><br/><br/>
+                        <p>
+                            <span>Certificat de scolarité N-1: </span>
+                            {% if DCU is not null %}
+                            {% if DCU.certificatDeScolariteN1 is not null %}
+                            oui 
+                            <a href="{{asset('document/'~DCU.demandeur.id~'_'~DCU.demandeur.mail~'/'~DCU.demandeur.mail~'_certificat_scolarite_n_1.pdf')}}">
+                                <span class="fa fa-eye"></span> </a>
+                                <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                     <!-- On limite le fichier à 100Ko -->
+                                     <input type="file" name="file" required>
+                                     <input type="hidden" name="filename" value="_certificat_scolarite_n_1.pdf">
+                                     <input type="hidden" name="id_doc" value="{{DCU.id}}"></input>
+                                     <input type="hidden" name="id_user" value="{{app.user.id}}"></input>
+                                     <input type="submit" name="envoyer" value="Envoyer le fichier">
+                                </form>
+                            {% else %}
+                            non 
+                            <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                 <!-- On limite le fichier à 100Ko -->
+                                 <input type="file" name="file" required>
+                                 <input type="hidden" name="filename" value="_certificat_scolarite_n_1.pdf">
+                                 <input type="hidden" name="id_doc" value="{{DCU.id}}"></input>
+                                 <input type="hidden" name="id_user" value="{{app.user.id}}"></input>
+                                 <input type="submit" name="envoyer" value="Envoyer le fichier">
+                            </form>
+                            {% endif %}
+                            {% else %}
+                            non (vous n'avez pas effectué de demande)
+                            {% endif %}
+                        </p><br/><br/>
+                        <p>
+                            <span>Diplôme: </span>
+                            {% if app.user.diplome is not null %}
+                            oui 
+                            <a href="{{ asset('document/'~app.user.id~'_'~app.user.mail~'/'~ app.user.diplome)}}">
+                                <span class="fa fa-eye" ></a>
+                                <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                     <!-- On limite le fichier à 100Ko -->
+                                     <input type="file" name="file" required>
+                                     <input type="hidden" name="filename" value="_diplome.pdf">
+                                     <input type="hidden" name="id_user_add" value="{{app.user.id}}"></input>
+                                     <input type="submit" name="envoyer" value="Envoyer le fichier">
+                                </form>
+                            {% else %}
+                            non 
+                            <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                 <!-- On limite le fichier à 100Ko -->
+                                 <input type="file" name="file" required>
+                                 <input type="hidden" name="filename" value="_diplome.pdf">
+                                 <input type="hidden" name="id_user_add" value="{{app.user.id}}"></input>
+                                 <input type="submit" name="envoyer" value="Envoyer le fichier">
+                            </form>
+                            {% endif %}
+                        </p><br/><br/>
+                        <p>
+                            <span>justificatif de domicile: </span>
+                            {% if app.user.justificatifDeDomicile is not null %}
+                            oui 
+                            <a href="{{ asset('document/'~app.user.id~'_'~app.user.nom~'_'~app.user.prenom~'/'~ app.user.justificatifDeDomicile)}}">
+                                <span class="fa fa-eye" ></span> </a>
+                                <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                     <!-- On limite le fichier à 100Ko -->
+                                     <input type="file" name="file" required>
+                                     <input type="hidden" name="filename" value="_justificatif_domicile.pdf">
+                                     <input type="hidden" name="id_user_add" value="{{app.user.id}}"></input>
+                                     <input type="submit" name="envoyer" value="Envoyer le fichier">
+                                </form>
+                            {% else %}
+                            non 
+                            <form method="POST" action="{{path('ctg_perso')}}" enctype="multipart/form-data">
+                                 <!-- On limite le fichier à 100Ko -->
+                                 <input type="file" name="file" required>
+                                 <input type="hidden" name="filename" value="_justificatif_domicile.pdf">
+                                 <input type="hidden" name="id_user_add" value="{{app.user.id}}"></input>
+                                 <input type="submit" name="envoyer" value="Envoyer le fichier">
+                            </form>
+                            {% endif %}
+                        </p><br/><br/>
+                    </div>
+                    <!-- <a class="buttons" href="{# {{ urlLoremIpsum }} #}">Téléverser un document</a> -->
+                </div>
+                <a id="contact" href="{{ urlContact }}">Nous contacter</a>
+            </div>
+            <div></div>
+        </div>
+    {% else %}
+    vous êtes gestionnaire
+    {% endif %}
+    {% endblock %}
+    </main>
+    <footer>
+    {% block footer %}
+        {{parent()}}
+    {% endblock %}
+    </footer>
+</body>
+{% endblock %}

@@ -1,0 +1,13 @@
+{# app/Resources/views/Emails/registration.html.twig #}
+
+<p>Bonjour {{ utilisateur.nom }} {{utilisateur.prenom}},</p></br>
+<p>Vous avez effectuer une modification de votre mot de passe.</p>
+<p>Afin de rendre celle-ci effectifive, veuillez cliquer sur le lien suivant :</p>
+<a href"{{ url('ctg_modification_mdp_f', { 'id' : utilisateur.id })}}">{{ url('ctg_modification_mdp_f', { 'id' : utilisateur.id })}}</a></br>
+<p>La Collectivité Territoriale de Guyane</p></br>
+
+{# example, assuming you have a route named "login" #}
+
+
+{# Makes an absolute URL to the /images/logo.png file #}
+<img src="{{ absolute_url(asset('img/logo-ctg.png')) }}">

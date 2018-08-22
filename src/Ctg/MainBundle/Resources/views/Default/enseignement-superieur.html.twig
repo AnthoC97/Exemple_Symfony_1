@@ -1,0 +1,83 @@
+{% extends "CtgMainBundle:Layout:main.html.twig" %}
+
+{% block title %}Enseignement Supérieur{% endblock %}
+{% block stylesheets %}{{parent()}}{% endblock %}
+
+{%block body %}
+<body>
+    <header>
+    {%block header %}
+        {{parent()}}
+        <!--<nav id="menu">
+            <p id="title">SERVICE EDUCATION</p>
+             <ul id="menu-ul">
+                <li>
+                    <a href="{{ urlBac1a5 }}" class="menuA">Bac +1 à Bac +5</a><span class="fa fa-chevron-down fa1"></span><span class="fa fa-chevron-up fa2"></span>
+                    <ul class="sous-menu">
+                        <li><a href="{{ urlReglement }}">Règlement</a></li>
+                        <li><a href="{{ urlProcedureAttribution }}">Procédure d'attribution</a></li>
+                        <li><a href="{{ urlListePiece }}">Liste des pièces</a></li>
+                        <li><a href="{{ urlContact }}">Contact</a></li> 
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{ urlLoremIpsum }}" class="menuA">Bac +6 à Bac +8</a><span class="fa fa-chevron-down fa1"></span><span class="fa fa-chevron-up fa2"></span>
+                    <ul class="sous-menu">
+                        <li><a href="{{ urlLoremIpsum }}">Règlement</a></li>
+                        <li><a href="{{ urlLoremIpsum }}">Procédure d'attribution</a></li>
+                        <li><a href="{{ urlLoremIpsum }}">Liste des pièces</a></li>
+                        <li><a href="{{ urlLoremIpsum }}">Contact</a></li> 
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{ urlLoremIpsum }}" class="menuA">PAE</a><span class="fa fa-chevron-down fa1"></span><span class="fa fa-chevron-up fa2"></span>
+                    <ul class="sous-menu">
+                        <li><a href="{{ urlLoremIpsum }}">Règlement</a></li>
+                        <li><a href="{{ urlLoremIpsum }}">Procédure d'attribution</a></li>
+                        <li><a href="{{ urlLoremIpsum }}">Liste des pièces</a></li>
+                        <li><a href="{{ urlLoremIpsum }}">Contact</a></li> 
+                    </ul>
+                </li>
+            </ul> 
+        </nav> -->
+        <nav class="gtco-nav" role="navigation">
+        <div class="container">
+            <div>
+                <div class="col-sm-2 col-xs-12">
+                    <div id="gtco-logo">Aides<em>Territoriales</em>&Eacute;tudiants</div>
+                </div>
+                <div class="col-xs-10">
+                    <ul>
+                        <li><a href="{{ path('ctg_education') }}" data-nav-section="aides">Accueil</a></li>
+                        <li><a href="{{ path('ctg_aides') }}" data-nav-section="aides">Les aides</a></li>
+                        <li><a href="{{ path('ctg_faq') }}" data-nav-section="rules">FAQ</a></li>
+                        <li><a href="{{ path('ctg_contact') }}" data-nav-section="procedure">Contact</a></li>
+                        {% if app.user.nom is defined %}
+                        <li class="btn-cta"><a href="{{path('ctg_nouvelle_demande')}}" data-nav-section="sign-up"><span>Nouvelle demande</span></a></li>
+                        {% else%}
+                        <li class="btn-cta"><a href="{{path('ctg_creer_compte')}}" data-nav-section="sign-up"><span>Je m'inscris</span></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </nav>
+    {% endblock %}
+    </header>
+    <main>
+    {% block main %}
+        {{parent()}}
+        <div id="buttons">
+            <a id="b1ES" href="{{ urlCreerCompte }}">Je crée mon compte</a>
+            <a id="b2ES" href="{{ login }}">J'ai déjà un compte</a>
+        </div>
+    {% endblock %}
+    </main>
+    <footer>
+    {% block footer %}
+        {{parent()}}
+    {% endblock %}
+    </footer>
+</body>
+{% endblock %}

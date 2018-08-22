@@ -1,0 +1,359 @@
+{% extends "CtgMainBundle:Layout:form.html.twig" %}
+
+{% block title %}{{parent()}}-Création de Compte Gestionnaire{% endblock %}
+{% block stylesheets %}{{parent()}}<link rel="stylesheet" type="text/css" href="{{asset('css/fiche.css')}}">{% endblock %}
+{% block body %}
+    <header>
+    {%block header %}
+        {{parent()}}
+        <nav class="gtco-nav" role="navigation">
+        <div class="container">
+            <div>
+                <div class="col-sm-2 col-xs-12">
+                    <div id="gtco-logo">Aides<em>Territoriales</em>&Eacute;tudiants</div>
+                </div>
+                <div class="col-xs-10">
+                    <ul>
+                        <li><a href="{{ path('ctg_education') }}" data-nav-section="aides">Accueil</a></li>
+                        <li><a href="{{ path('ctg_contact_etudiant', {'id' : utilisateur.id}) }}" data-nav-section="aides">contacter l'étudiant</a></li>
+                        {% if DCU.etat == 'Envoyé' or DCU.etat == 'Complet' %}<li><a href="{{ path('ctg_contact_referent', {'id' : utilisateur.id}) }}" data-nav-section="rules">passer la fiche en commission</a></li> 
+                        {% elseif DCU.etat == 'Commission' and is_granted('ROLE_REFERENT') %}
+                            <li><a href="{{ path('ctg_fiche_valider', {'id' : utilisateur.id}) }}" data-nav-section="rules">Terminer l'instruction</a></li>
+                        {% elseif DCU.etat =='Validée' and is_granted('ROLE_GESTIONNAIRE') %}
+                            <li><a href="{{ path('ctg_fiche_paiement', {'id' : utilisateur.id}) }}" data-nav-section="rules">Paiement</a></li>
+                        {% elseif (DCU.etat =='Paiement' or DCU.etat =='Rejetée') and is_granted('ROLE_GESTIONNAIRE') %}
+                            <li><a href="{{ path('ctg_fiche_cloturer', {'id' : utilisateur.id}) }}" data-nav-section="rules">Clôturer la demande</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </nav>
+    {% endblock %}
+    </header>
+    <main class="mainFiche">
+        {% block main %}
+        {{parent()}}
+        <form id="formFiche" method="POST" action="{{path('ctg_form_fiche',{'id': utilisateur.id })}}">
+            <div id="div1">
+                <div id="divA1">
+                    <h2>Instructeur</h2> 
+                    <div id="divAA1">    
+                        <label>Nom : {{ DCU.gestionnaire.nom }}</label>
+                        <label>Prénom : {{ DCU.gestionnaire.prenom }}</label>
+                        <div><label>Dossier complet reçu le : </label><input placeholder="AAAA-MM-JJ" type="text" name="dateComplet" value="{% if DCU.dateComplet %}{{ DCU.dateComplet|date("Y-m-d")}}{% endif %}"></div>
+                        <div><label>Instruction réalisé le : </label><input placeholder="AAAA-MM-JJ" type="text" name="dateInstruction" value="{% if DCU.dateInstruction %}{{ DCU.dateInstruction|date("Y-m-d")}}{% endif %}"></div>
+                    </div>
+                </div>
+                <div id="divB1">
+                    <h2>{{utilisateur.nom}} {{utilisateur.prenom}} - 2017/2018</h2>
+                    <div id="divAB1">
+                        <div><label>Date de naissance - age : {{utilisateur.dateNaissance|date("d/m/Y")}} - {{ ageUser }}ans</label></div>
+                        <div><label>Niveau d'étude : {{ utilisateur.niveauDEtude }}</label></div>
+                        <div><label>Etablissement : {{ DCU.etablissement }}</label></div>
+                        <div><label>Lieu de naissance : {{ utilisateur.lieuDeNaissance}}</label></div>
+                        <div><a class="buttons" href="{{ path('ctg_form_modification_compte', {'id' : utilisateur.id}) }}">Modifier les infos sur l'étudiant</a></div>
+                        {% if DCU is not null %}
+                        {% if utilisateur.niveauDEtude == "Bac+6"
+                        or utilisateur.niveauDEtude == "Bac+7"
+                        or utilisateur.niveauDEtude == "Bac+8" %}
+                        <div><a class="buttons" href="{{ path('ctg_form_modification_demande_bac6a8', {'id' : utilisateur.id}) }}">Modifier les infos sur la demande</a></div>
+                        {% else %}
+                        <div><a class="buttons" href="{{ path('ctg_form_modification_demande_bac1a5', {'id' : utilisateur.id}) }}">Modifier les infos sur la demande</a></div>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                    <!-- <div id="divAB1">
+                        <div><label>Date de naissance - age : </label><input type="text" name="dateNaissance" value="{{utilisateur.dateNaissance|date("Y-m-d")}}"> {{ ageUser }}ans</div>
+                        <div><label>Niveau d'étude : </label>                        
+                        <select name="niveauDEtude">
+                            <option {% if utilisateur.niveauDEtude == 'Bac' %}selected="selected"{% endif %}>Bac</option>
+                            <option {% if utilisateur.niveauDEtude == 'Bac+1' %}selected="selected"{% endif %}>Bac+1</option>
+                            <option {% if utilisateur.niveauDEtude == 'Bac+2' %}selected="selected"{% endif %}>Bac+2</option>
+                            <option {% if utilisateur.niveauDEtude == 'Bac+3' %}selected="selected"{% endif %}>Bac+3</option>
+                            <option {% if utilisateur.niveauDEtude == 'Bac+4' %}selected="selected"{% endif %}>Bac+4</option>
+                            <option {% if utilisateur.niveauDEtude == 'Bac+5' %}selected="selected"{% endif %}>Bac+5</option>
+                            <option {% if utilisateur.niveauDEtude == 'Bac+6' %}selected="selected"{% endif %}>Bac+6</options>
+                            <option {% if utilisateur.niveauDEtude == 'Bac+7' %}selected="selected"{% endif %}>Bac+7</option>
+                            <option {% if utilisateur.niveauDEtude == 'Bac+8' %}selected="selected"{% endif %}>Bac+8</option>
+                        </select>
+                        </div>
+                        <div><label>Etablissement : </label><input type="text" name="etablissement" value="{{ DCU.etablissement }}"></div>
+                        <div><label>Lieu de naissance : </label><input type="text" name="lieuDeNaissance" value="{{ utilisateur.lieuDeNaissance}}"></div>
+                    </div> -->
+                </div>
+            </div>
+            <div id="div2">
+                <h2>Pièces justificatives</h2>
+                <div id="divA2">
+                    <div id="divAA2">
+                        <div>
+                            <input type="checkbox" disabled="disabled" {% if utilisateur.cni is not null %}checked{% endif %}>
+                            <label>Pièce d'identité</label></div>
+                            {% if utilisateur.cni is not null %}
+                            <a href="{{ path('ctg_document_piece-identite', {'id' : utilisateur.id} ) }}">
+                                <span class="fa fa-eye" title="visualiser le document"></span>
+                            </a>
+                            {% endif %}
+                        <div>
+                            <input type="checkbox" disabled="disabled" {% if DCU.avisDImpositionN is not null %}checked{% endif %}>
+                            <label>Avis d'imposition</label></div>
+                            {% if DCU.avisDImpositionN is not null %}
+                            <a href="{{ path('ctg_document_avis-imposition-N', {'id' : utilisateur.id}) }}">
+                                <span class="fa fa-eye" title="visualiser le document"></span>
+                            </a>
+                            {% endif %}
+                        <div>
+                            <input type="checkbox" disabled="disabled" {% if DCU.certificatDeScolarite is not null %}checked{% endif %}>
+                            <label>Certificat de scolarité</label></div>
+                            {% if DCU.certificatDeScolarite is not null %}
+                            <a href="{{ path('ctg_document_certificat-scolarite', {'id' : utilisateur.id}) }}">
+                                <span class="fa fa-eye" title="visualiser le document"></span> 
+                            </a>
+                            {% endif %}
+                        <div>
+                            <input type="checkbox" disabled="disabled" {% if DCU.notificationCrous is not null %}checked{% endif %}>
+                            <label>Notification CROUS</label></div>
+                            {% if DCU.notificationCrous is not null %}
+                            <a href="{{ path('ctg_document_notification-crous',{'id' : utilisateur.id})}}">
+                                <span class="fa fa-eye" title="visualiser le document"></span>
+                            </a>
+                            {% endif %}
+                    </div>
+                    <div id="divBA2">
+                        <div>
+                            <input type="checkbox" disabled="disabled" {% if utilisateur.ribFile is not null %}checked{% endif %}>
+                            <label>RIB</label></div>
+                            {% if utilisateur.ribFile is not null %}
+                            <a href="{{ path('ctg_document_rib', {'id' : utilisateur.id}) }}">
+                                <span class="fa fa-eye" title="visualiser le document" title="visualiser le document"></span> 
+                            </a>
+                            {% endif %}
+                        <div>
+                            <input type="checkbox" disabled="disabled" {% if utilisateur.cv is not null %}checked{% endif %}>
+                            <label>CV</label></div>
+                            {% if utilisateur.cv is not null %}
+                            <a href="{{ path('ctg_document_cv', {'id' : utilisateur.id}) }}">
+                                <span class="fa fa-eye" title="visualiser le document">
+                            </a>
+                            {% endif %}
+                        <div>
+                            <input type="checkbox" disabled="disabled" {% if DCU.avisDImpositionN1 is not null %}checked{% endif %}>
+                            <label>Avis d'imposition N-1</label></div>
+                            {% if DCU.avisDImpositionN1 is not null %}
+                            <a href="{{ path('ctg_document_avis-imposition-N1', {'id' : utilisateur.id}) }}">
+                                <span class="fa fa-eye" title="visualiser le document"></span>
+                            </a>
+                            {% endif %}
+                        <div>
+                            <input type="checkbox" disabled="disabled" {% if DCU.certificatDeScolariteN1 is not null %}checked{% endif %}>
+                            <label>Certificat de scolarité N-1</label></div>
+                            {% if DCU.certificatDeScolariteN1 is not null %}
+                            <a href="{{ path('ctg_document_certificat-scolarite-N1', {'id' : utilisateur.id}) }}">
+                                <span class="fa fa-eye" title="visualiser le document"></span> 
+                            </a>
+                            {% endif %}
+                        <div>
+                            <input type="checkbox" disabled="disabled" {% if utilisateur.dernierDiplome is not null %}checked{% endif %}>
+                            <label>Diplôme</label></div>
+                            <a href="{{ path('ctg_document_diplome', {'id' : utilisateur.id}) }}">
+                                <span class="fa fa-eye" title="visualiser le document">
+                            </a>
+                    </div>
+                </div>
+            </div>
+            {% if DCU is not null %}
+            {% if utilisateur.niveauDEtude == "Bac+6"
+            or utilisateur.niveauDEtude == "Bac+7"
+            or utilisateur.niveauDEtude == "Bac+8" %}
+            <div id="div3">
+                <h2>Elément d'instruction - BAC +6 à BAC +8</h2>
+                <div id="divA3">
+                    <div>
+                        <label>Bourse - Echelon : </label>
+                        <select name="echelon">
+                            <option {% if DCU.bourseEchelon == 'Rejet - revenus' %}selected="selected"{% endif %}>Rejet - revenus</option>
+                            <option {% if DCU.bourseEchelon == 'Rejet - crédit' %}selected="selected"{% endif %}>Rejet - crédit</option>
+                            <option {% if DCU.bourseEchelon == 'Rejet - conditions' %}selected="selected"{% endif %}>Rejet - conditions</option>
+                            <option {% if DCU.bourseEchelon == '0' %}selected="selected"{% endif %}>0</option>
+                            <option {% if DCU.bourseEchelon == '0bis' %}selected="selected"{% endif %}>0bis</option>
+                            <option {% if DCU.bourseEchelon == '1' %}selected="selected"{% endif %}>1</option>
+                            <option {% if DCU.bourseEchelon == '2' %}selected="selected"{% endif %}>2</option>
+                            <option {% if DCU.bourseEchelon == '3' %}selected="selected"{% endif %}>3</option>
+                            <option {% if DCU.bourseEchelon == '4' %}selected="selected"{% endif %}>4</option>
+                            <option {% if DCU.bourseEchelon == '5' %}selected="selected"{% endif %}>5</option>
+                            <option {% if DCU.bourseEchelon == '6' %}selected="selected"{% endif %}>6</option>
+                            <option {% if DCU.bourseEchelon == '7' %}selected="selected"{% endif %}>7</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Aides sollicitées: <u>Forfaitaire DOCTORANT</u></Forfaitaire></label>
+                    </div>
+                    <div>
+                        <label>Lieu d'étude: </label>
+                        <select name="lieuEtude">
+                            <option ></option>
+                            <option {% if DCU.lieuEtude == 'Guyane Française' %}selected="selected"{% endif %}>Guyane Française</option>
+                            <option {% if DCU.lieuEtude == 'France Métropolitaine' %}selected="selected"{% endif %}>France Métropolitaine</option>
+                            <option {% if DCU.lieuEtude == 'Amérique du Nord' %}selected="selected"{% endif %}>Amérique du Nord</option>
+                            <option {% if DCU.lieuEtude == 'Amérique du Sud' %}selected="selected"{% endif %}>Amérique du Sud</option>
+                            <option {% if DCU.lieuEtude == 'Caraïbes' %}selected="selected"{% endif %}>Caraïbes</option>
+                            <option {% if DCU.lieuEtude == 'Europe(Hors France)' %}selected="selected"{% endif %}>Europe(Hors France)</option>
+                            <option {% if DCU.lieuEtude == 'Asie' %}selected="selected"{% endif %}>Asie</option>
+                            <option {% if DCU.lieuEtude == 'Afrique' %}selected="selected"{% endif %}>Afrique</option>
+                            <option {% if DCU.lieuEtude == 'Océanie' %}selected="selected"{% endif %}>Océanie</option>
+                        </select>
+                    </div>
+                    <fieldset id="group1">
+                        <div><label>Proposer un montant :</label><input type="radio" value="r-montant" name="group1" {% if DCU.rejet is null %}checked {% endif %}></div>
+                        <div><label>Rejeter le dossier :</label><input type="radio" value="r-rejet" name="group1" {% if DCU.rejet is not null %}checked {% endif %}></div>
+                    </fieldset>
+                    <div>
+                        <label>Montant : 
+                            {% if DCU.lieuEtude == '' %}
+                            -
+                            {% elseif DCU.lieuEtude == 'Guyane Française' %}
+                            4000€
+                            {% else %}
+                            3000€
+                            {% endif %}
+                        </label>
+                        {% if DCU.lieuEtude == 'Guyane Française' %}
+                        <input type="hidden" name="montant" value="4000">
+                        {% elseif DCU.lieuEtude == '' %}
+                        <input type="hidden" name="montant" value="">
+                        {% else %}
+                        <input type="hidden" name="montant" value="3000">
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label>Motif de rejet :</label>
+                        <select name="rejet">
+                            <option {% if DCU.rejet == 'Etudes dispensées en Guyane' %}selected="selected"{% endif %}>Etudes dispensées en Guyane</option>
+                            <option {% if DCU.rejet == "Aide perçue au cours de l'année" %}selected="selected"{% endif %}>Aide perçue au cours de l'année</option>
+                            <option {% if DCU.rejet == 'Moins de 5 ans sur le territoire' %}selected="selected"{% endif %}>Moins de 5 ans sur le territoire</option>
+                            <option {% if DCU.rejet == '+ de 27 ans au 1er octobre' %}selected="selected"{% endif %}>+ de 27 ans au 1er octobre</option>
+                            <option {% if DCU.rejet == 'Pas de titre de séjour régulier' %}selected="selected"{% endif %}>Pas de titre de séjour régulier</option>
+                            <option {% if DCU.rejet == 'Redoublement/même cycle' %}selected="selected"{% endif %}>Redoublement/même cycle</option>
+                            <option {% if DCU.rejet == 'Filière non prise en charge' %}selected="selected"{% endif %}>Filière non prise en charge</options>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div id="div3">
+                <h2>Elément d'instruction - BAC +1 à BAC +5</h2>
+                <div id="divA3">
+                    <div>
+                        <label>Bourse - Echelon : </label>
+                        <select name="echelon">
+                            <option {% if DCU.bourseEchelon == 'Rejet - revenus' %}selected="selected"{% endif %}>Rejet - revenus</option>
+                            <option {% if DCU.bourseEchelon == 'Rejet - crédit' %}selected="selected"{% endif %}>Rejet - crédit</option>
+                            <option {% if DCU.bourseEchelon == 'Rejet - conditions' %}selected="selected"{% endif %}>Rejet - conditions</option>
+                            <option {% if DCU.bourseEchelon == '0' %}selected="selected"{% endif %}>0</option>
+                            <option {% if DCU.bourseEchelon == '0bis' %}selected="selected"{% endif %}>0bis</option>
+                            <option {% if DCU.bourseEchelon == '1' %}selected="selected"{% endif %}>1</option>
+                            <option {% if DCU.bourseEchelon == '2' %}selected="selected"{% endif %}>2</option>
+                            <option {% if DCU.bourseEchelon == '3' %}selected="selected"{% endif %}>3</option>
+                            <option {% if DCU.bourseEchelon == '4' %}selected="selected"{% endif %}>4</option>
+                            <option {% if DCU.bourseEchelon == '5' %}selected="selected"{% endif %}>5</option>
+                            <option {% if DCU.bourseEchelon == '6' %}selected="selected"{% endif %}>6</option>
+                            <option {% if DCU.bourseEchelon == '7' %}selected="selected"{% endif %}>7</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Aides sollicitées: </label>
+                        <div id="formAides">
+                            {% if DCU.aides|length == 1 %}
+                            <div><input type="checkbox" name="aidesInstallation" value="Installation" disabled="disabled" {% if DCU.aides[0] == "Installation" %}checked{% endif %}> <label>Installation</label></div>
+                            <div><input type="checkbox" name="aidesScolarite" value="Scolarité" disabled="disabled" {% if DCU.aides[0] == "Scolarité" %}checked{% endif %}> <label>Scolarité</label></div>
+                            <div><input type="checkbox" name="aidesTransport" value="Transport" disabled="disabled" {% if DCU.aides[0] == "Transport" %}checked{% endif %}> <label>Transport</label></div>
+                            <div><input type="checkbox" name="aidesAchatMaterielScolaire" value="Achat de matériels scolaire" disabled="disabled" {% if DCU.aides[0] == "Achat de matériels scolaire" %}checked{% endif %}> <label>Achat de matériels scolaire</label></div>
+                            {% endif %}
+                            
+                            {% if DCU.aides|length == 2 %}
+                            <div><input type="checkbox" name="aidesInstallation" value="Installation" disabled="disabled" {% if DCU.aides[0] == "Installation" or DCU.aides[1] == "Installation" %}checked{% endif %}> <label>Installation</label></div>
+                            <div><input type="checkbox" name="aidesScolarite" value="Scolarité" disabled="disabled" {% if DCU.aides[0] == "Scolarité" or DCU.aides[1] == "Scolarité" %}checked{% endif %}> <label>Scolarité</label></div>
+                            <div><input type="checkbox" name="aidesTransport" value="Transport" disabled="disabled" {% if DCU.aides[0] == "Transport" or DCU.aides[1] == "Transport" %}checked{% endif %}> <label>Transport</label></div>
+                            <div><input type="checkbox" name="aidesAchatMaterielScolaire" value="Achat de matériels scolaire" disabled="disabled" {% if DCU.aides[0] == "Achat de matériels scolaire" or DCU.aides[1] == "Achat de matériels scolaire" %}checked{% endif %}> <label>Achat de matériels scolaire</label></div>
+                            {% endif %}
+                            
+                            {% if DCU.aides|length == 3 %}
+                            <div><input type="checkbox" name="aidesInstallation" value="Installation" disabled="disabled" {% if DCU.aides[0] == "Installation" or DCU.aides[1] == "Installation" or DCU.aides[2] == "Installation" %}checked{% endif %}> <label>Installation</label></div>
+                            <div><input type="checkbox" name="aidesScolarite" value="Scolarité" disabled="disabled" {% if DCU.aides[0] == "Scolarité" or DCU.aides[1] == "Scolarité" or DCU.aides[2] == "Scolarité"  %}checked{% endif %}> <label>Scolarité</label></div>
+                            <div><input type="checkbox" name="aidesTransport" value="Transport" disabled="disabled" {% if DCU.aides[0] == "Transport" or DCU.aides[1] == "Transport" or DCU.aides[2] == "Transport" %}checked{% endif %}> <label>Transport</label></div>
+                            <div><input type="checkbox" name="aidesAchatMaterielScolaire" value="Achat de matériels scolaire" disabled="disabled" {% if DCU.aides[0] == "Achat de matériels scolaire" or DCU.aides[1] == "Achat de matériels scolaire" or DCU.aides[2] == "Achat de matériels scolaire" %}checked{% endif %}> <label>Achat de matériels scolaire</label></div>
+                            {% endif %}
+                            
+                            {% if DCU.aides|length == 4 %}
+                            <div><input type="checkbox" name="aidesInstallation" value="Installation" disabled="disabled" {% if DCU.aides[0] == "Installation" or DCU.aides[1] == "Installation" or DCU.aides[2] == "Installation" or DCU.aides[3] == "Installation" %}checked{% endif %}> <label>Installation</label></div>
+                            <div><input type="checkbox" name="aidesScolarite" value="Scolarité" disabled="disabled" {% if DCU.aides[0] == "Scolarité" or DCU.aides[1] == "Scolarité" or DCU.aides[2] == "Scolarité" or DCU.aides[3] == "Scolarité" %}checked{% endif %}> <label>Scolarité</label></div>
+                            <div><input type="checkbox" name="aidesTransport" value="Transport" disabled="disabled" {% if DCU.aides[0] == "Transport" or DCU.aides[1] == "Transport" or DCU.aides[2] == "Transport" or DCU.aides[3] == "Transport" %}checked{% endif %}> <label>Transport</label></div>
+                            <div><input type="checkbox" name="aidesAchatMaterielScolaire" value="Achat de matériels scolaire" disabled="disabled" {% if DCU.aides[0] == "Achat de matériels scolaire" or DCU.aides[1] == "Achat de matériels scolaire" or DCU.aides[2] == "Achat de matériels scolaire" or DCU.aides[3] == "Achat de matériels scolaire" %}checked{% endif %}> <label>Achat de matériels scolaire</label></div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
+                        <label>Revenu de référence: </label>
+                        <select name="revenuReference">
+                            <option {% if DCU.revenuReference == '0 à 20 000' %}selected="selected"{% endif %}>0 à 20 000</option>
+                            <option {% if DCU.revenuReference == '20 001 à 30 000' %}selected="selected"{% endif %}>20 001 à 30 000</option>
+                            <option {% if DCU.revenuReference == '30 001 à 40 000' %}selected="selected"{% endif %}>30 001 à 40 000</option>
+                            <option {% if DCU.revenuReference == '40 001 à 50 000' %}selected="selected"{% endif %}>40 001 à 50 000</option>
+                            <option {% if DCU.revenuReference == '>50 000' %}selected="selected"{% endif %}>>50 000</option>
+                        </select>
+                    </div>
+                    <div><label>Référence CROUS: </label> <input type="text" name="referenceCROUS" value="{{DCU.referenceCROUS}}"></div>
+                    <label>Taux applicable : 
+                    {% if DCU.revenuReference == '0 à 20 000' %}
+                    100%
+                    {% elseif DCU.revenuReference == '20 001 à 30 000' %}
+                    80%
+                    {% elseif DCU.revenuReference == '30 001 à 40 000' %}
+                    50%
+                    {% elseif DCU.revenuReference == '40 001 à 50 000' %}
+                    20%
+                    {% elseif DCU.revenuReference == '>50 000' %}
+                    10%
+                    {% else %}
+                    -
+                    {% endif %}
+                    </label>
+                    <fieldset id="group1">
+                        <div><label>Proposer un montant :</label><input type="radio" value="r-montant" name="group1" {% if DCU.rejet is null %}checked {% endif %}></div>
+                        <div><label>Rejeter le dossier :</label><input type="radio" value="r-rejet" name="group1" {% if DCU.rejet is not null %}checked {% endif %}></div>
+                    </fieldset>
+                    <div><label>Montant :</label><input type="text" name="montant" value="{{DCU.montant}}"></div>
+                    <div>
+                        <label>Motif de rejet :</label>
+                        <select name="rejet">
+                            <option {% if DCU.rejet == 'Etudes dispensées en Guyane' %}selected="selected"{% endif %}>Etudes dispensées en Guyane</option>
+                            <option {% if DCU.rejet == "Aide perçue au cours de l'année" %}selected="selected"{% endif %}>Aide perçue au cours de l'année</option>
+                            <option {% if DCU.rejet == 'Moins de 5 ans sur le territoire' %}selected="selected"{% endif %}>Moins de 5 ans sur le territoire</option>
+                            <option {% if DCU.rejet == '+ de 27 ans au 1er octobre' %}selected="selected"{% endif %}>+ de 27 ans au 1er octobre</option>
+                            <option {% if DCU.rejet == 'Pas de titre de séjour régulier' %}selected="selected"{% endif %}>Pas de titre de séjour régulier</option>
+                            <option {% if DCU.rejet == 'Redoublement/même cycle' %}selected="selected"{% endif %}>Redoublement/même cycle</option>
+                            <option {% if DCU.rejet == 'Filière non prise en charge' %}selected="selected"{% endif %}>Filière non prise en charge</options>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            <div id="div4">
+                <h2>Observations :</h2>
+                <div id="divA4">
+                    <textarea name="observation" placeholder="Observations ..."></textarea>
+                </div>
+            </div>
+            <input id="valider" type="submit" value="Effectuer les modifications"></input>
+        </form>
+        {% endblock %}
+    </main>
+    <footer id="formFooter">
+        {% block footer %}
+            {{parent()}}
+        {% endblock %}
+    </footer>
+{% endblock %}

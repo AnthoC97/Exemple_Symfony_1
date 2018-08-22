@@ -1,0 +1,60 @@
+{% extends "CtgMainBundle:Layout:main.html.twig" %}
+
+{% block title %}Enseignement Supérieur{% endblock %}
+{% block stylesheets %}{{parent()}}{% endblock %}
+
+{%block body %}
+<body>
+    <header>
+    {%block header %}
+        {{parent()}}
+        <nav id="menu">
+            <p id="title">SERVICE EDUCATION</p>
+             <ul id="menu-ul">
+                <li>
+                    <a href="{{ urlBac1a5 }}" class="menuA">Bac +1 à Bac +5</a><span class="fa fa-chevron-down fa1"></span><span class="fa fa-chevron-up fa2"></span>
+                    <ul class="sous-menu">
+                        <li><a href="{{ urlReglement }}">Règlement</a></li>
+                        <li><a href="{{ urlProcedureAttribution }}">Procédure d'attribution</a></li>
+                        <li><a href="{{ urlListePiece }}">Liste des pièces</a></li>
+                        <li><a href="{{ urlContact }}">Contact</a></li> 
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{ urlLoremIpsum }}" class="menuA">Bac +6 à Bac +8</a><span class="fa fa-chevron-down fa1"></span><span class="fa fa-chevron-up fa2"></span>
+                    <ul class="sous-menu">
+                        <li><a href="{{ urlLoremIpsum }}">Règlement</a></li>
+                        <li><a href="{{ urlLoremIpsum }}">Procédure d'attribution</a></li>
+                        <li><a href="{{ urlLoremIpsum }}">Liste des pièces</a></li>
+                        <li><a href="{{ urlLoremIpsum }}">Contact</a></li> 
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{ urlLoremIpsum }}" class="menuA">PAE</a><span class="fa fa-chevron-down fa1"></span><span class="fa fa-chevron-up fa2"></span>
+                    <ul class="sous-menu">
+                        <li><a href="{{ urlLoremIpsum }}">Règlement</a></li>
+                        <li><a href="{{ urlLoremIpsum }}">Procédure d'attribution</a></li>
+                        <li><a href="{{ urlLoremIpsum }}">Liste des pièces</a></li>
+                        <li><a href="{{ urlLoremIpsum }}">Contact</a></li> 
+                    </ul>
+                </li>
+            </ul> 
+        </nav>
+    {% endblock %}
+    </header>
+    <main>
+    {% block main %}
+        {{parent()}}
+        <div id="buttons">
+            <a id="b1ES" href="{{ urlCreerCompte }}">Je crée mon compte</a>
+            <a id="b2ES" href="{{ login }}">J'ai déjà un compte</a>
+        </div>
+    {% endblock %}
+    </main>
+    <footer>
+    {% block footer %}
+        {{parent()}}
+    {% endblock %}
+    </footer>
+</body>
+{% endblock %}

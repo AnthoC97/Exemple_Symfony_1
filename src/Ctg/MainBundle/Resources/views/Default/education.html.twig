@@ -1,0 +1,72 @@
+{% extends "CtgMainBundle:Layout:main.html.twig" %}
+
+{% block title %}Education{% endblock %}
+{% block stylesheets %}{{parent()}}{% endblock %}
+
+
+{%block body %}
+<body id="education">
+    <header>
+    {%block header %}
+        {{parent()}}
+         
+        <nav class="gtco-nav" role="navigation">
+        <div class="container">
+            <div>
+                <div class="col-sm-2 col-xs-12">
+                    <div id="gtco-logo">Aides<em>Territoriales</em>&Eacute;tudiants</div>
+                </div>
+                <div class="col-xs-10">
+                    <ul>
+                        <li><a href="{{ path('ctg_aides') }}" data-nav-section="aides">Les aides</a></li>
+                        <li><a href="{{ path('ctg_faq') }}" data-nav-section="rules">FAQ</a></li>
+                        <li><a href="{{ path('ctg_contact') }}" data-nav-section="procedure">Contact</a></li>
+                        {% if app.user.nom is defined %}
+                        {% if DCU is not null %}
+                        {% else %}
+                        <li class="btn-cta"><a href="{{path('ctg_nouvelle_demande')}}" data-nav-section="sign-up"><span>Nouvelle demande</span></a></li>
+                        {% endif %}
+                        {% else%}
+                        <li class="btn-cta"><a href="{{path('ctg_creer_compte')}}" data-nav-section="sign-up"><span>Je m'inscris</span></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </nav>
+    {% endblock %}
+    </header>
+    <main>
+    {% block main %}
+    {{parent()}}
+        <div class="photo"><img class="photo" src="{{asset('img/affiche_ATE-Bourses.jpg')}}"/></div>
+        <div class="clearfix">
+            
+            <h3>Vous êtes étudiant(e) en formation initiale <br/>(sans rupture après le BAC),<br/>nous souhaiterions connaître votre niveau d'étude :</h3>
+            
+            <ul id="listeBac1a5">
+                <li><strong>bac</strong> +1 : s'il s'agit de la 1<sup>re</sup> année après le BAC (En préparation d'un BTS, d'une Licence ou en classe Préparatoire aux grandes écoles)</li>
+                <li><strong>bac</strong> +2 : s'il s'agit de la 2<sup>e</sup> année après le BAC (<b>BTS</b>, 2<sup>e</sup> année de Licence ou de classe Prépa)</li>
+                <li><strong>bac</strong> +3 : s'il s'agit de la 3<sup>e</sup> année après le BAC (Licence ou en classe Prépa)</li>
+                <li><strong>bac</strong> +4 : s'il s'agit de la 4<sup>e</sup> année après le BAC (Master I)</li>
+                <li><strong>bac</strong> +5 : s'il s'agit de la 5<sup>e</sup> année après le BAC (Master II)</li>
+            </ul>
+            <h4>attention:</h4>
+            <p>Les redoublements et changements de filières ne sont pas considérés comme une année supplémentaire</p><br/>
+            <p>Exemple:</p></bloquote>
+            <p><strong>Cas 1:</strong><br/>Pour l'année universitaire 2016/2017. J'étais en 1<sup>re</sup> année Licence AES, j'ai fait une demande où j'ai coché <strong>bac +1</strong>.</p>
+            <p><strong>Je n'ai pas validé cette année et je dois recommencer.</strong> Pour l'année universitaire 2017/2018, <strong>je coche à nouveau bac +1.</strong></p>
+            <p><strong>Cas 2:</strong> <br/>Pour l'année universitaire 2016/2017. J'étais en 1<sup>re</sup> année licence AES, j'ai fait une demande où j'ai coché bac +1.</p>
+            <p><strong>J'ai changé de filière</strong> et m'oriente vers une 1ère année en LEA. Pour l'année universitaire 2017/2018, <strong>je coche à nouveau bac +1.</strong></p>
+            
+        </div>
+    {% endblock %}
+    </main>
+    <footer>
+    {% block footer %}
+        {{parent()}}
+    {% endblock %}
+    </footer>
+</body>
+{% endblock %}

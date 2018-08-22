@@ -1,0 +1,12 @@
+{# app/Resources/views/Emails/registration.html.twig #}
+
+<p>Bonjour {{ nom }} {{prenom}},</p></br>
+<p>Vous venez d'effectuer une demande afin d'obetir une bourse d'enseignement supérieur.</p></br>
+<p>Votre demande sera traitée dans les plus brefs délais</p></br>
+<p>La Collectivité Territoriale de Guyane</p></br>
+
+{# example, assuming you have a route named "login" #}
+
+
+{# Makes an absolute URL to the /images/logo.png file #}
+<img src="{{ absolute_url(asset('img/logo-ctg.png')) }}">

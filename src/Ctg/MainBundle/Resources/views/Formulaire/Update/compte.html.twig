@@ -1,0 +1,116 @@
+{% extends "CtgMainBundle:Layout:form.html.twig" %}
+
+{% block title %}{{parent()}}-Modification de Compte{% endblock %}
+{% block stylesheets %}{{parent()}}{% endblock %}
+{% block body %}
+    <header>
+    {%block header %}
+        {{parent()}}
+            {% if is_granted('ROLE_GESTIONNAIRE') %}
+        <nav class="gtco-nav" role="navigation">
+        <div class="container">
+            <div>
+                <div class="col-sm-2 col-xs-12">
+                    <div id="gtco-logo">Aides<em>Territoriales</em>&Eacute;tudiants</div>
+                </div>
+                <div class="col-xs-10">
+                    <ul>
+                        <li><a href="{{ path('ctg_education') }}" data-nav-section="aides">Accueil</a></li>
+                        <li><a href="{{ path('ctg_profil', {'id' : user.id}) }}" data-nav-section="aides">Retour à la fiche</a></li>
+                        <li><a href="{{ path('ctg_contact_etudiant', {'id' : user.id}) }}" data-nav-section="aides">contacter l'étudiant</a></li>
+                        <!--<li><a href="{#{{ path('ctg_contact_referent') }}#}" data-nav-section="rules">contacter un référent</a></li> -->
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </nav>
+    {% elseif is_granted('ROLE_UTILISATEUR') %}
+        <nav class="gtco-nav" role="navigation">
+        <div class="container">
+            <div>
+                <div class="col-sm-2 col-xs-12">
+                    <div id="gtco-logo">Aides<em>Territoriales</em>&Eacute;tudiants</div>
+                </div>
+                <div class="col-xs-10">
+                    <ul>
+                        <li><a href="{{ path('ctg_education') }}" data-nav-section="aides">Accueil</a></li>
+                        <li><a href="{{ path('ctg_aides') }}" data-nav-section="aides">Les aides</a></li>
+                        <li><a href="{{ path('ctg_faq') }}" data-nav-section="rules">FAQ</a></li>
+                        <li><a href="{{ path('ctg_contact') }}" data-nav-section="procedure">Contact</a></li>
+                        {% if app.user.nom is defined %}
+                        <li class="btn-cta"><a href="{{path('ctg_nouvelle_demande')}}" data-nav-section="sign-up"><span>Nouvelle demande</span></a></li>
+                        {% else%}
+                        <li class="btn-cta"><a href="{{path('ctg_creer_compte')}}" data-nav-section="sign-up"><span>Je m'inscris</span></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </nav>
+    {% endif %}
+    {% endblock %}
+    </header>
+    <main class="mainForm">
+        {% block main %}
+        {{parent()}}
+        <div class="well">
+            {% if is_granted('ROLE_GESTIONNAIRE') %}
+            <h1>Modifier le compte de {{ user.nom}} {{user.prenom}}</h1>
+            {% else %}
+            <h1>Je modifie mon compte</h1>
+            {% endif %}
+            <hr color="#0085CA" width="80%"></br></br>
+            {{ form_start(form) }}
+            <div>
+                *{{ form_label(form.Nom)}}
+                {{ form_widget(form.Nom) }}
+            </div>
+            <div>
+                *{{ form_label(form.Prenom)}}
+                {{ form_widget(form.Prenom) }}
+            </div>
+            <div>
+                *{{ form_label(form.Date_naissance)}}
+                {{ form_widget(form.Date_naissance) }}
+            </div>
+            <div>
+                *{{ form_label(form.lieu_de_naissance)}}
+                {{ form_widget(form.lieu_de_naissance) }}
+            </div>
+            <div>
+                *{{ form_label(form.Rue)}}
+                {{ form_widget(form.Rue) }}
+            </div>
+            <div>
+                *{{ form_label(form.Code_postal)}}
+                {{ form_widget(form.Code_postal) }}
+            </div>
+            <div>
+                *{{ form_label(form.Ville)}}
+                {{ form_widget(form.Ville) }}
+            </div>
+            <div>
+                *{{ form_label(form.Telephone)}}
+                {{ form_widget(form.Telephone) }}
+            </div>
+            <div>
+                *{{ form_label(form.Niveau_d_etude)}}
+                {{ form_widget(form.Niveau_d_etude) }}
+            </div>
+            <div>
+                *{{ form_label(form.Mail)}}
+                {{ form_widget(form.Mail) }}
+            </div>
+            {{ form_end(form) }}
+            
+        </div>
+        {% endblock %}
+    </main>
+    <footer id="formFooter">
+        {% block footer %}
+            {{parent()}}
+        {% endblock %}
+    </footer>
+{% endblock %}

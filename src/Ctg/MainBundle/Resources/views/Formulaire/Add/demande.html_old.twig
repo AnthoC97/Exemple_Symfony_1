@@ -1,0 +1,145 @@
+{% extends "CtgMainBundle:Layout:form.html.twig" %}
+
+{% block title %}{{parent()}}-Nouvelle demande{% endblock %}
+{% block stylesheets %}{{parent()}}{% endblock %}
+{% block body %}
+    <header>
+    {%block header %}
+        {{parent()}}
+        <nav class="gtco-nav" role="navigation">
+        <div class="container">
+            <div>
+                <div class="col-sm-2 col-xs-12">
+                    <div id="gtco-logo">Aides<em>Territoriales</em>&Eacute;tudiants</div>
+                </div>
+                <div class="col-xs-10">
+                    <ul>
+                        <li><a href="{{ path('ctg_education') }}" data-nav-section="aides">Accueil</a></li>
+                        <li><a href="{{ path('ctg_aides') }}" data-nav-section="aides">Les aides</a></li>
+                        <li><a href="{{ path('ctg_faq') }}" data-nav-section="rules">FAQ</a></li>
+                        <li><a href="{{ path('ctg_contact') }}" data-nav-section="procedure">Contact</a></li>
+                        {% if app.user.nom is defined %}
+                        {% if DCU is not null %}
+                        {% else %}
+                        <li class="btn-cta"><a href="{{path('ctg_nouvelle_demande')}}" data-nav-section="sign-up"><span>Nouvelle demande</span></a></li>
+                        {% endif %}
+                        {% else%}
+                        <li class="btn-cta"><a href="{{path('ctg_creer_compte')}}" data-nav-section="sign-up"><span>Je m'inscris</span></a></li>
+                        {% endif %} 
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </nav>
+    {% endblock %}
+    </header>
+    <main class="mainForm">
+        {% block main %}
+        {{parent()}}
+        <div class="well">
+            <h1>Je suis Etudiant(e) de Bac +1 à Bac +5</h1>
+            <hr color="#0085CA" width="80%"></br></br>
+            {{ form_start(form) }}
+            <h4>Annee Universitaire N-1</h4>
+            <div>
+                *{{ form_label(form.Etablissement_n_1)}}
+                {{ form_widget(form.Etablissement_n_1) }}
+            </div>
+            <div>
+                *{{ form_label(form.Adresse_n_1)}}
+                {{ form_widget(form.Adresse_n_1) }}
+            </div>
+            <div>
+                *{{ form_label(form.Code_postal_n_1)}}
+                {{ form_widget(form.Code_postal_n_1) }}
+            </div>
+            <div>
+                *{{ form_label(form.Ville_n_1)}}
+                {{ form_widget(form.Ville_n_1) }}
+            </div>
+            <div>
+                *{{ form_label(form.Classe_frequentee_n_1)}}
+                {{ form_widget(form.Classe_frequentee_n_1) }}
+            </div>
+            <div>
+                *{{ form_label(form.Specialite_n_1)}}
+                {{ form_widget(form.Specialite_n_1) }}
+            </div>
+            <h4>Année Universitaire N</h4>        
+            <div>
+                *{{ form_label(form.Etablissement)}}
+                {{ form_widget(form.Etablissement) }}
+            </div>
+            <div>
+                *{{ form_label(form.Adresse)}}
+                {{ form_widget(form.Adresse) }}
+            </div>
+            <div>
+                *{{ form_label(form.Code_postal)}}
+                {{ form_widget(form.Code_postal) }}
+            </div>
+            <div>
+                *{{ form_label(form.Ville)}}
+                {{ form_widget(form.Ville) }}
+            </div>
+            <div>
+                *{{ form_label(form.Classe_frequentee)}}
+                {{ form_widget(form.Classe_frequentee) }}
+            </div>
+            <div>
+                *{{ form_label(form.Specialite)}}
+                {{ form_widget(form.Specialite) }}
+            </div>
+            <div>
+                *{{ form_label(form.aides)}}
+                {{ form_widget(form.aides)}}
+            </div>
+            <h4>Pièces justicatives</h4>
+            <div>
+                {{ form_label(form.Memoire)}}
+                {{ form_widget(form.Memoire) }}
+            </div>
+            <div>
+                {{ form_label(form.Avis_d_imposition_N)}}
+                {{ form_widget(form.Avis_d_imposition_N) }}
+            </div>
+            <div>
+                {{ form_label(form.Avis_d_imposition_N_1)}}
+                {{ form_widget(form.Avis_d_imposition_N_1) }}
+            </div>
+            <div>
+                {{ form_label(form.Notification_CROUS)}}
+                {{ form_widget(form.Notification_CROUS) }}
+            </div>
+            <div>
+                {{ form_label(form.Certificat_de_scolarite)}}
+                {{ form_widget(form.Certificat_de_scolarite) }}
+            </div>
+            <div>
+                {{ form_label(form.Certificat_de_scolarite_N_1)}}
+                {{ form_widget(form.Certificat_de_scolarite_N_1) }}
+            </div>
+            <div>
+                {{ form_label(form.autre_1)}}
+                {{ form_widget(form.autre_1) }}
+            </div>
+            <div>
+                {{ form_label(form.autre_2)}}
+                {{ form_widget(form.autre_2) }}
+            </div>
+            <div>
+                {{ form_label(form.autre_3)}}
+                {{ form_widget(form.autre_3) }}
+            </div>
+            {{ form_end(form) }}
+        
+        </div>
+        {% endblock %}
+    </main>
+    <footer id="formFooter">
+        {% block footer %}
+            {{parent()}}
+        {% endblock %}
+    </footer>
+{% endblock %}

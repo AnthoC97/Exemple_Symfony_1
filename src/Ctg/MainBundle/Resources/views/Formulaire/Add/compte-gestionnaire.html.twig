@@ -1,0 +1,91 @@
+{% extends "CtgMainBundle:Layout:form.html.twig" %}
+
+{% block title %}{{parent()}}-Création de Compte Gestionnaire{% endblock %}
+{% block stylesheets %}{{parent()}}{% endblock %}
+{% block body %}
+    <header>
+    {%block header %}
+        {{parent()}}
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <nav class="gtco-nav" role="navigation">
+            <div class="container">
+                <div>
+                    <div class="col-sm-2 col-xs-12">
+                        <div id="gtco-logo">Aides<em>Territoriales</em>&Eacute;tudiants</div>
+                    </div>
+                    <div class="col-xs-10">
+                        <ul>
+                            <li><a href="{{ path('ctg_perso') }}" data-nav-section="aides">Retour a l'interface super admin</a></li>
+                            <!-- <li><a href="{{ path('ctg_aides') }}" data-nav-section="aides">Les aides</a></li> 
+                            <li><a href="{{ path('ctg_faq') }}" data-nav-section="rules">FAQ</a></li>
+                            <li><a href="{{ path('ctg_contact') }}" data-nav-section="procedure">Contact</a></li>
+                            <li class="btn-cta"><a href="{{path('ctg_nouvelle_demande')}}" data-nav-section="sign-up"><span>Nouvelle demande</span></a></li> -->
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+        </nav>
+        {% else %}
+        <nav class="gtco-nav" role="navigation">
+            <div class="container">
+                <div>
+                    <div class="col-sm-2 col-xs-12">
+                        <div id="gtco-logo">Aides<em>Territoriales</em>&Eacute;tudiants</div>
+                    </div>
+                    <div class="col-xs-10">
+                        <ul>
+                            <li><a href="{{ path('ctg_education') }}" data-nav-section="aides">Accueil</a></li>
+                            <li><a href="{{ path('ctg_aides') }}" data-nav-section="aides">Les aides</a></li>
+                            <li><a href="{{ path('ctg_faq') }}" data-nav-section="rules">FAQ</a></li>
+                            <li><a href="{{ path('ctg_contact') }}" data-nav-section="procedure">Contact</a></li>
+                            {% if app.user.nom is defined %}
+                            <li class="btn-cta"><a href="{{path('ctg_nouvelle_demande')}}" data-nav-section="sign-up"><span>Nouvelle demande</span></a></li>
+                            {% else%}
+                            <li class="btn-cta"><a href="{{path('ctg_creer_compte')}}" data-nav-section="sign-up"><span>Je m'inscris</span></a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+        </nav>
+        {% endif %}
+    {% endblock %}
+    </header>
+    <main class="mainForm">
+        {% block main %}
+        {{parent()}}
+        <div class="well">
+            <h1>Je crée un compte - Gestionnaire</h1>
+            <hr color="#0085CA" width="80%"></br></br>
+            {{ form_start(form) }}
+            <h3>Civilité</h3>
+            <div>
+                *{{ form_label(form.Nom)}}
+                {{ form_widget(form.Nom) }}
+            </div>
+            <div>
+                *{{ form_label(form.Prenom)}}
+                {{ form_widget(form.Prenom) }}
+            </div>
+            <h3>Création du compte</h3>
+            <div>
+                *{{ form_label(form.Mail)}}
+                {{ form_widget(form.Mail) }}
+            </div>
+            <div>
+                *{{ form_label(form.Password)}}
+                {{ form_widget(form.Password) }}
+            </div>
+            {{ form_end(form) }}
+            
+        </div>
+        {% endblock %}
+    </main>
+    <footer id="formFooter">
+        {% block footer %}
+            {{parent()}}
+        {% endblock %}
+    </footer>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "CtgMainBundle:Layout:form.html.twig" %}
+
+{% block title %}Contact{% endblock %}
+{% block stylesheets %}{{parent()}}{% endblock %}
+
+
+{%block body %}
+<body id="bodyLogin">
+    <header>
+    {%block header %}
+        {{parent()}}
+        <nav class="gtco-nav" role="navigation">
+        <div class="container">
+            <div>
+                <div class="col-sm-2 col-xs-12">
+                    <div id="gtco-logo">Aides<em>Territoriales</em>&Eacute;tudiants</div>
+                </div>
+                <div class="col-xs-10">
+                    <ul>
+                        <li><a href="{{ path('ctg_education') }}" data-nav-section="aides">Accueil</a></li>
+                        <li><a href="{{ path('ctg_aides') }}" data-nav-section="aides">Les aides</a></li>
+                        <li><a href="{{ path('ctg_faq') }}" data-nav-section="rules">FAQ</a></li>
+                        <li><a href="{{ path('ctg_contact') }}" data-nav-section="procedure">Contact</a></li>
+                        {% if app.user.nom is defined %}
+                        {% if DCU is not null %}
+                        {% else %}
+                        <li class="btn-cta"><a href="{{path('ctg_nouvelle_demande')}}" data-nav-section="sign-up"><span>Nouvelle demande</span></a></li>
+                        {% endif %}
+                        {% else%}
+                        <li class="btn-cta"><a href="{{path('ctg_creer_compte')}}" data-nav-section="sign-up"><span>Je m'inscris</span></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </nav>
+    {% endblock %}
+    </header>
+    <main class="MainLogin">
+    {% block main %}
+    {{parent()}}
+    <div id="mainLogin">
+    
+      {# Le formulaire, avec URL de soumission vers la route « login_check » comme on l'a vu #}
+        <div class="well-contact">
+            <!--<h1>Formulaire de contact</h1>
+            <hr id="hr1" color="white">            
+            {{ form(form) }}-->
+                            <p>Direction Education Enseignement Supérieur</p>
+                <p>Collectivité Territoriale de Guyane</p>
+                <p>Hôtel de la Collectivité Territoriale</p>
+                <p>4179 route de Montabo</p>
+                <p>97300 Cayenne</p>
+                <p>Tél : 0594 300 600</p>
+        </div>
+    </div>
+    {% endblock %}
+    </main>
+    <footer>
+    {% block footer %}
+        {{parent()}}
+    {% endblock %}
+    </footer>
+</body>
+{% endblock %}

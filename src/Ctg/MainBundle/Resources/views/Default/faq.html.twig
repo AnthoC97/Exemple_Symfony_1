@@ -1,0 +1,199 @@
+{% extends "CtgMainBundle:Layout:main.html.twig" %}
+
+{% block title %}Education{% endblock %}
+{% block stylesheets %}{{parent()}}{% endblock %}
+
+
+{%block body %}
+<body id="education">
+    <header>
+    {%block header %}
+        {{parent()}}
+        <nav class="gtco-nav" role="navigation">
+        <div class="container">
+            <div>
+                <div class="col-sm-2 col-xs-12">
+                    <div id="gtco-logo">Aides<em>Territoriales</em>&Eacute;tudiants</div>
+                </div>
+                <div class="col-xs-10">
+                    <ul>
+                        <li><a href="{{ path('ctg_education') }}" data-nav-section="aides">Accueil</a></li>
+                        <li><a href="{{ path('ctg_aides') }}" data-nav-section="aides">Les aides</a></li>
+                        <li><a href="{{ path('ctg_faq') }}" data-nav-section="rules">FAQ</a></li>
+                        <li><a href="{{ path('ctg_contact') }}" data-nav-section="procedure">Contact</a></li>
+                        {% if app.user.nom is defined %}
+                        {% if DCU is not null %}
+                        {% else %}
+                        <li class="btn-cta"><a href="{{path('ctg_nouvelle_demande')}}" data-nav-section="sign-up"><span>Nouvelle demande</span></a></li>
+                        {% endif %}
+                        {% else%}
+                        <li class="btn-cta"><a href="{{path('ctg_creer_compte')}}" data-nav-section="sign-up"><span>Je m'inscris</span></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </nav>
+    {% endblock %}
+    </header>
+    <main id="aides">
+    {% block main %}
+        <div class="infos">
+        <div class="infos">
+
+<h2>De Bac +1 à Bac +5</h2>
+<hr>
+<h3>Règlement</h3>
+   
+<h3>Dispositions générales</h3>
+
+<p>Les aides sont attribuées aux étudiants ou élèves inscrits dans un cycle d’études supérieures ou équivalentes suivies hors ou dans le département de la Guyane.</p>
+
+<p>Le présent règlement, par ses mesures, en faveur des étudiants, a pour objectif :</p>
+
+<ul><li>Accompagner l’élévation du niveau de qualification moyen des jeunes (ayant le statut d’étudiant) pour leur permettre un meilleur positionnement sur le marché du travail local,</li>
+<li>Soutenir des étudiants dont le parcours et/ou la spécificité de leur formation, correspondent aux objectifs fixés par la stratégie de développement pour la Guyane selon le profil de chaque étudiant,</li>
+<li>Contribuer à l’excellence et à la réussite éducative.</li></ul>
+
+<p>Le présent cadre détermine les conditions et les modalités d’attribution de cette aide, les montants et les modalités de calcul et de paiement de ces aides. </p>
+
+<p>Le champ d’application du règlement pourra être révisé annuellement en fonction des priorités retenues par l’exécutif de la Collectivité Territoriale de Guyane.</p>
+
+
+<h3>Modalités d’accès</h3>
+
+<p>Le demandeur devra remplir les conditions suivantes :</p>
+
+<ul>
+
+<li>Être inscrit dans un cycle d’études supérieures</li> 
+<li>Avoir le statut étudiant </li> 
+<li>Être de nationalité française ou ressortissant d’un état membre de l’Union Européenne ou étranger titulaire d’un titre de séjour régulier.</li> 
+<li>Avoir son foyer fiscal ou celui des parents en Guyane depuis au moins 5 ans ou plus et avoir des parents domiciliés en Guyane depuis au moins 4 ans et durant toute l’année d’étude</li> 
+<li>Être âgé de moins de 27 ans au 1er octobre de l’année universitaire en cours.</li> 
+<li>Ne pas avoir effectué cette formation antérieurement (redoublement…) ou avoir été inscrit dans le même niveau de cycle antérieurement</li> 
+
+</ul>
+
+
+<h3>Les formations éligibles</h3>
+
+<p>L’étudiant doit être inscrit en formation initiale à temps plein dans un établissement d’enseignement supérieur et délivrant des diplômes reconnus par l’Etat français de BAC +1 à BAC +5</p>
+
+<p>ATTENTION NE SONT PAS ELIGIBLES LES ETUDIANTS :</p>
+
+<ul>
+<li>Bénéficiant de l’aide d’une autre collectivité territoriale (une attestation pourra être demandée)</li>
+<li>Salariés</li>
+<li>Ayant déjà perçu l’aide au cours de l’année scolaire ou universitaire en cours.</li>
+<li>Suivant des formations dispensées par les établissements de Guyane (études hors de Guyane)</li>
+</ul>
+
+<h3>Procédure d’inscription en ligne</h3>
+
+<p>Le site d’inscription sera ouvert à compter du 09 octobre 2017 au 31 janvier 2018 inclus.</p>
+
+
+<p>Le demandeur respectera les dates d’ouverture et de clôture du site fixée par la Collectivité Territoriale de Guyane.</p>
+
+
+<h3>Liste des pièces à fournir</h3>
+
+<ul>
+
+<li>Une copie de la pièce d’identité</li>
+
+<li>Le certificat de scolarité de l’année universitaire 2017/2018</li>
+<li>Le certificat de scolarité de l’année universitaire 2016/2017</li>
+
+<li>L’avis d’imposition ou de non-imposition des parents et/ou de l’étudiant 2017 sur les revenus 2016</li>
+<li>L’avis d’imposition ou de non-imposition des parents et/ou de l’étudiant 2016 sur les revenus 2015</li>
+
+<li>Un relevé d’identité bancaire au nom de l’étudiant</li>
+
+<li>La notification d’attribution ou de rejet du CROUS</li>
+
+</ul>
+
+<h3>ATTENTION LES DOSSIERS INCOMPLETS  NE SERONT PAS INSTRUITS</h3>
+
+<p></p>
+<p></p>
+
+<h2>De Bac+6 à Bac+8</h2>
+<hr>
+
+<p>Cette aide forfaitaire vise à : </p>
+
+<ul>
+<li>Permettre à des étudiants guyanais préparant une thèse prioritairement en Guyane ou hors de Guyane d’effectuer un travail de recherche dans des universités ou établissements publics  de recherche. 
+<li>Promouvoir la recherche  de haut niveau dans le cadre de laboratoires universitaires sur des projets d’intérêt local. 
+
+
+
+
+
+<h3>Modalités d’attribution</h3>
+
+<p>Critère d’éligibilité :</p>
+
+<ul>
+
+<li>Etre titulaire d’un master recherche 2ème année ou d’un diplôme jugé équivalent (produire l’attestation de l’université d’accueil autorisant l’inscription en thèse)</li>
+<li>Avoir le statut d’étudiant </li>
+<li>Etre de nationalité française</li>
+<li>Avoir son foyer fiscal ou celui des parents en Guyane depuis au moins 5 ans </li>
+<li>Etre âgé de 27 ans au maximum au 1er octobre de l’année universitaire. Pour les étudiants plus âgés, une étude au cas par cas sera réalisée. </li>
+<li>Ne pas avoir effectué cette formation antérieurement (redoublement…) ou avoir    été inscrit dans le même niveau de cycle antérieurement</li>
+<li>Ne pas bénéficier d’une bourse d’études supérieures ou d’une allocation nationale octroyée par le Ministère de l’Education Nationale ou par un organisme de recherche (CNRS, IFREMER, CNES, IRD, CIRAD …)</li>
+
+</ul>
+
+<p>Les 11 thématiques prioritaires sont :</p>
+
+<ul>
+
+<li>La gestion et la valorisation des ressources naturelles</li>
+<li>La santé en milieu tropical</li>
+<li>Les biotechnologies</li>
+<li>Le développement et la promotion des énergies renouvelables</li>
+<li>Le traitement et la valorisation des déchets</li>
+<li>La télé technologie (spatial et télémédecine)</li>
+<li>La corrosion</li>
+<li>Les sciences humaines, notamment les sciences du langage</li>
+<li>Les hydrocarbures</li>
+<li>Les métiers de la culture (conservateur du patrimoine, Archiviste/bibliothécaire, Audiovisuel, spectacle vivants…)</li>
+<li>La biologie humaine</li>
+
+</ul>
+
+<h3>Montant de l’aide forfaitaire </h3>
+
+<p>Lieu d’étude hors de Guyane</p>
+
+<p>Le montant de l’aide forfaitaire est de 3 000,00 € </p>
+
+>p>Lieu d’étude en Guyane</p>
+
+<p>Le montant de l’aide forfaitaire est de  4 000,00 € </p>
+
+<p>L’aide forfaitaire est renouvelable chaque année, dans la limite de 2 renouvellements, correspondant à un cursus de 36 mois, soient trois années universitaires.</p>
+<p>Toutefois, la commission de sélection se réserve le droit d’étudier les demandes au cas par cas.</p>
+ 
+<h2>Les aides ne sont pas cumulables entre elles. </h2>
+
+
+
+
+
+        </div>
+    {% endblock %}
+    </main>
+    <footer>
+    {% block footer %}
+        {{parent()}}
+    {% endblock %}
+    </footer>
+</body>
+{% endblock %}

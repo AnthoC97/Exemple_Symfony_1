@@ -1,0 +1,15 @@
+{# app/Resources/views/Emails/registration.html.twig #}
+
+<p>Bonjour {{ nom }} {{prenom}},</p></br>
+<p>Vous venez de vous inscrire pour solliciter une bourse d'enseignement supérieur.</p></br>
+<p>Votre identifiant de connexion est le suivant : </p>
+<p>{{mail}}</p></br>
+<p>Pour vous connecter, vous pouvez cliquer <a href="{{ url('login') }}">ici</a>.</p></br>
+<p>Nous vous recommandons de conserver ce message qui contient votre identifiant.</p></br>
+<p>La Collectivité Territoriale de Guyane</p></br>
+
+{# example, assuming you have a route named "login" #}
+
+
+{# Makes an absolute URL to the /images/logo.png file #}
+<img src="{{ absolute_url(asset('img/logo-ctg.png')) }}">

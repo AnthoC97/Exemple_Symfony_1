@@ -1,0 +1,71 @@
+{% extends "CtgMainBundle:Layout:main.html.twig" %}
+
+{% block title %}Education{% endblock %}
+{% block stylesheets %}{{parent()}}{% endblock %}
+
+
+{%block body %}
+<body id="education">
+    <header>
+    {%block header %}
+        {{parent()}}
+        <nav class="gtco-nav" role="navigation">
+        <div class="container">
+            <div>
+                <div class="col-sm-2 col-xs-12">
+                    <div id="gtco-logo">Aides<em>Territoriales</em>&Eacute;tudiants</div>
+                </div>
+                <div class="col-xs-10">
+                    <ul>
+                        <li class="active">Accueil</li>
+                        <li><a href="{{ path('ctg_aides') }}" data-nav-section="aides">Les aides</a></li>
+                        <li><a href="{{ path('ctg_faq') }}" data-nav-section="rules">FAQ</a></li>
+                        <li><a href="{{ path('ctg_contact') }}" data-nav-section="procedure">Contact</a></li>
+                        <li class="btn-cta"><a href="{{path('ctg_creer_compte')}}" data-nav-section="sign-up"><span>Je m'inscris</span></a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </nav>
+    {% endblock %}
+    </header>
+    <main id="aides">
+    {% block main %}
+        <div class="infos">
+                   <p>La Collectivité Territoriale de Guyane vous propose 4 types d’aides : </p>
+				<h2>Aide à l’installation :</h2>
+		
+<p>L'aide à la première installation est destinée à financer une partie des frais liés à la location d'un nouveau logement dans le cadre des études supérieures.
+Le plafond est fixé à 1 000 € (mille euros) sous conditions de ressources.
+Sont aussi pris en compte les étudiants ayant déménagé, dans une autre région ou pays, pour la poursuite de leur filière.</p>
+
+
+
+<h2>Aide à la scolarité :</h2>
+<p>L’aide à la scolarité est destinée à  financer (en partie) les frais de scolarité des étudiants des établissements privés ou publics qui ne bénéficient pas de l’exonération des frais d’inscription.
+Le plafond est fixé à 2 500 € (deux mille cinq cent euros) sous conditions de ressources.</p>
+
+
+<h2>Aide à l’achat de matériels scolaires :</h2>
+
+<p>L’aide à l’achat de matériel scolaire est destinée à financer les frais liés à l'achat de livres, de fournitures scolaires. 
+Le plafond est fixé à 500 € (cinq cent euros) sous conditions de ressources.</p>
+<h2>Aide au transport :</h2>
+
+<p>L’aide au transport est destinée à financer l’achat d’un titre de transport (billet d’avion, carte de bus, abonnement transport) permettant de se rendre à son lieu d’étude et/ou de stage.
+Le plafond est de 500 € (cinq cent euros) sous conditions de ressources.
+Les rapprochements familiaux ne sont pas pris en compte.</p>
+
+            </p>
+                   </div>
+    {% endblock %}
+    </main>
+    <footer>
+    {% block footer %}
+        {{parent()}}
+    {% endblock %}
+    </footer>
+</body>
+{% endblock %}

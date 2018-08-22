@@ -1,0 +1,23 @@
+ctg_accueil:
+    path: /accueil
+    defaults: { _controller: CtgMainBundle:Site:index}
+    
+ctg_education:
+    path: /education
+    defaults{ _controller: CtgMainBundle:Site:education}
+    
+ctg_perso:
+    path: /perso
+    defaults: { _controller: CtgMainBundle:Site:perso}
+    
+ctg_gestionnaire:
+    path: /gestionnaire
+    defaults: { _controller: CtgMainBundle:Site:gestionnaire}
+    
+ctg_referent:
+    path: /referent
+    defaults: { _controller: CtgMainBundle:Site:referent}
+    
+ctg_admin:
+    path: /admin
+    defaults: { _controller: CtgMainBundle:Site:admin}

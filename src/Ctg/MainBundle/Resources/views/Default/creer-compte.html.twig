@@ -1,0 +1,52 @@
+{% extends "CtgMainBundle:Layout:main.html.twig" %}
+
+{% block title %}Création de compte{% endblock %}
+{% block stylesheets %}{{parent()}}{% endblock %}
+
+{%block body %}
+<body id="bodyCC">
+    <header>
+    {%block header %}
+        {{parent()}}
+        <nav class="gtco-nav" role="navigation">
+        <div class="container">
+            <div>
+                <div class="col-sm-2 col-xs-12">
+                    <div id="gtco-logo">Aides<em>Territoriales</em>&Eacute;tudiants</div>
+                </div>
+                <div class="col-xs-10">
+                    <ul>
+                        <li><a href="{{ path('ctg_education') }}" data-nav-section="aides">Accueil</a></li>
+                        <li><a href="{{ path('ctg_aides') }}" data-nav-section="aides">Les aides</a></li>
+                        <li><a href="{{ path('ctg_faq') }}" data-nav-section="rules">FAQ</a></li>
+                        <li><a href="{{ path('ctg_contact') }}" data-nav-section="procedure">Contact</a></li>
+                        {% if app.user.nom is defined %}
+                        <li class="btn-cta"><a href="{{path('ctg_nouvelle_demande')}}" data-nav-section="sign-up"><span>Nouvelle demande</span></a></li>
+                        {% else%}
+                        <li class="btn-cta"><a href="{{path('ctg_creer_compte')}}" data-nav-section="sign-up"><span>Je m'inscris</span></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </nav>
+    {% endblock %}
+    </header>
+    <main id="mainCC">
+    {% block main %}
+        {{parent()}}
+        <div id="buttons-creer-compte">
+            <h1 id="h1CC">Je crée mon compte :</h1>
+            <a id="b1CC" href="{{ urlFormulaireCCE}}">Je suis un(e) etudiant(e)</a>
+            <!-- <a id="b2CC" href="{{ urlFormulaireCCP}}">Je suis un professionnel</a> -->
+        </div>
+    {% endblock %}
+    </main>
+    <footer>
+    {% block footer %}
+        {{parent()}}
+    {% endblock %}
+    </footer>
+</body>
+{% endblock %}

@@ -1,0 +1,125 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{asset('css/fiche.css')}}">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    </head>
+    <body>
+        <form id="mainFiche">
+            <div id="div1">
+                <div id="divA1">
+                    <h2>Instructeur</h2> 
+                    <div id="divAA1">    
+                        <label>Nom : {{ DCU.gestionnaire.nom }}</label>
+                        <label>Prénom : {{ DCU.gestionnaire.prenom }}</label>
+                        <label>Dossier complet reçu le : {% if DCU.dateComplet is not null %}{{ DCU.dateComplet }}{% else %}-{% endif %}</label>
+                        <label>Instruction réalisé le : {% if DCU.dateComplet is not null %}{{ DCU.dateInstruction }}{% else %}-{% endif %}</label>
+                    </div>
+                </div>
+                <div id="divB1">
+                    <h2>{{utilisateur.nom}} {{utilisateur.prenom}} - 2017/2018</h2>
+                    <div id="divAB1">
+                        <div><label>Date de naissance - age : {{utilisateur.dateNaissance|date("d/m/Y")}} - {{ ageUser }}ans</label></div>
+                        <div><label>Niveau d'étude : </label><input type="text" value="{{ utilisateur.niveauDEtude }}"></div>
+                        <div><label>Etablissement : {{ DCU.etablissement }}</label></div>
+                        <div><label>Lieu de naissance : {{ utilisateur.lieuDeNaissance}}</label></div>
+                    </div>
+                </div>
+            </div>
+            <div id="div2">
+                <h2>Pièces justificatives</h2>
+                <div id="divA2">
+                    <div id="divAA2">
+                        <div><input type="checkbox" disabled="disabled" {% if utilisateur.cni is not null %}checked{% endif %}> <label>Pièce d'identité</label></div>
+                        <div><input type="checkbox" disabled="disabled" {% if DCU.avisDImpositionN is not null %}checked{% endif %}> <label>Avis d'imposition</label></div>
+                        <div><input type="checkbox" disabled="disabled" {% if DCU.certificatDeScolarite is not null %}checked{% endif %}> <label>Certificat de scolarité</label></div>
+                        <div><input type="checkbox" disabled="disabled" {% if DCU.notificationCrous is not null %}checked{% endif %}> <label>Notification CROUS</label></div>   
+                    </div>
+                    <div id="divBA2">
+                        <div><input type="checkbox" disabled="disabled" {% if utilisateur.rib is not null %}checked{% endif %}> <label>RIB</label></div>
+                        <div><input type="checkbox" disabled="disabled" {% if utilisateur.cv is not null %}checked{% endif %}> <label>CV</label></div>
+                        <div><input type="checkbox" disabled="disabled" {% if DCU.avisDImpositionN1 is not null %}checked{% endif %}> <label>Avis d'imposition N-1</label></div>
+                        <div><input type="checkbox" disabled="disabled" {% if DCU.certificatDeScolariteN1 is not null %}checked{% endif %}> <label>Certificat de scolarité N-1</label></div>
+                        <div><input type="checkbox" disabled="disabled" {% if utilisateur.dernierDiplome is not null %}checked{% endif %}> <label>Diplôme</label></div>
+                    </div>
+                </div>
+            </div>
+            <div id="div3">
+                <h2>Elément d'instruction - BAC +1 à BAC +5</h2>
+                <div id="divA3">
+                    <div>
+                        <label>Bourse - Echelon : </label>
+                        <select>
+                            <option>Rejet - revenus</option>
+                            <option>Rejet - crédit</option>
+                            <option>Rejet - conditions</option>
+                            <option>0</option>
+                            <option>0bis</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Aides sollicitées: </label>
+                        <div id="aides">
+                            <div><input type="checkbox" value="Installation"> <label>Installation</label></div>
+                            <div><input type="checkbox" value="Scolarité"> <label>Scolarité</label></div>
+                            <div><input type="checkbox" value="Transport"> <label>Transport</label></div>
+                            <div><input type="checkbox" value="Achat de matériels scolaire"> <label>Achat de matériels scolaire</label></div>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Revenu de référence: </label>
+                        <select>
+                            <option>0 à 20 000</option>
+                            <option>20 001 à 30 000</option>
+                            <option>30 001 à 40 000</option>
+                            <option>40 001 à 50 000</option>
+                            <option>>50 000</option>
+                        </select>
+                    </div>
+                    <div><label>Référence CROUS: </label> <input type="text" value="{{DCU.referenceCROUS}}">
+                    <label>Taux applicable : 
+                    {% if DCU.revenuReference == '0 à 20 000' %}
+                    100%
+                    {% elseif DCU.revenuReference == '20 001 à 30 000' %}
+                    80%
+                    {% elseif DCU.revenuReference == '30 001 à 40 000' %}
+                    50%
+                    {% elseif DCU.revenuReference == '40 001 à 50 000' %}
+                    20%
+                    {% else %}
+                    10%
+                    {% endif %}
+                    </label>
+                    <div><label>Proposer un montant :</label><input type="text"></div>
+                    <div>
+                        <label>Rejeter le dossier :</label>
+                        <select>
+                            <option>Etudes dispensées en Guyane</option>
+                            <option>Aide perçue au cours de l'année</option>
+                            <option>Moins de 5 ans sur le territoire</option>
+                            <option>+ de 27 ans au 1er octobre</option>
+                            <option>Pas de titre de séjour régulier</option>
+                            <option>Redoublement/même cycle</option>
+                            <option>Filière non prise en charge</options>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="div4">
+                <h2>Observations :</h2>
+                <div id="divA4">
+                    <textarea placeholder="Observations ..."></textarea>
+                </div>
+            </div>
+            <input id="valider" type="submit" value="Effectuer les modifications"></input>
+        </form>
+    </body>
+</html>
